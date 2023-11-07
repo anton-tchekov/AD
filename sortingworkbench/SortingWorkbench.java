@@ -120,7 +120,8 @@ public class SortingWorkbench {
         new InsertionSort(),
         new BubbleSort(),
         new QuickSort(),
-        new MergeSort()
+        new MergeSort(),
+        new UltimateSort(),
     };
 
     /**
