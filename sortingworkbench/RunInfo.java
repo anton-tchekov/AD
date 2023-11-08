@@ -13,45 +13,55 @@ import java.util.Map;
  * zu den unterschiedlichen Listenarten (random, ordered, reversed)
  * abgerufen werden.
  */
-public class RunInfo {
-    private final int numElements;
+public class RunInfo
+{
+	private final int numElements;
 
-    private final int partialOrderedListSize;
+	private final int partialOrderedListSize;
 
-    private final Map<Sorter, RunMetrics> metrics;
+	private final Map<Sorter, RunMetrics> metrics;
 
-    public RunInfo(List<Sorter> sorter, int numElements, int partialOrderedListSize) {
-        this.metrics = new IdentityHashMap<>(sorter.size());
+	public RunInfo(List<Sorter> sorter, int numElements,
+		int partialOrderedListSize)
+	{
+		this.metrics = new IdentityHashMap<>(sorter.size());
 
-        for (Sorter s : sorter) {
-            metrics.put(s, new RunMetrics(s));
-        }
+		for(Sorter s : sorter)
+		{
+			metrics.put(s, new RunMetrics(s));
+		}
 
-        this.numElements = numElements;
-        this.partialOrderedListSize = partialOrderedListSize;
-    }
+		this.numElements = numElements;
+		this.partialOrderedListSize = partialOrderedListSize;
+	}
 
-    public int getNumElements() {
-        return numElements;
-    }
+	public int getNumElements()
+	{
+		return numElements;
+	}
 
-    public int getPartialOrderedListSize() {
-        return partialOrderedListSize;
-    }
+	public int getPartialOrderedListSize()
+	{
+		return partialOrderedListSize;
+	}
 
-    public SortingMetrics getRandomMetricsFor(Sorter sorter) {
-        return metrics.get(sorter).getRandomMetrics();
-    }
+	public SortingMetrics getRandomMetricsFor(Sorter sorter)
+	{
+		return metrics.get(sorter).getRandomMetrics();
+	}
 
-    public SortingMetrics getOrderedMetricsFor(Sorter sorter) {
-        return metrics.get(sorter).getOrderedMetrics();
-    }
+	public SortingMetrics getOrderedMetricsFor(Sorter sorter)
+	{
+		return metrics.get(sorter).getOrderedMetrics();
+	}
 
-    public SortingMetrics getReverseOrderedMetricsFor(Sorter sorter) {
-        return metrics.get(sorter).getReverseOrderedMetrics();
-    }
+	public SortingMetrics getReverseOrderedMetricsFor(Sorter sorter)
+	{
+		return metrics.get(sorter).getReverseOrderedMetrics();
+	}
 
-    public SortingMetrics getPartialOrderedMetricsFor(Sorter sorter) {
-        return metrics.get(sorter).getPartialOrderedMetrics();
-    }
+	public SortingMetrics getPartialOrderedMetricsFor(Sorter sorter)
+	{
+		return metrics.get(sorter).getPartialOrderedMetrics();
+	}
 }

@@ -7,21 +7,25 @@ import sortingworkbench.RunInfo;
  * Durchlauf der Workbench mit einer Anzahl von Elementen
  * mit allen Sortern.
  */
-public class ProgressEvent {
-    private final String message;
+public class ProgressEvent
+{
+	private final String message;
 
-    private final RunInfo runConfig;
+	private final RunInfo runConfig;
 
-    public ProgressEvent(RunInfo runConfig, String message) {
-        this.message   = message;
-        this.runConfig = runConfig;
-    }
+	public ProgressEvent(RunInfo runConfig, String message)
+	{
+		this.message = message;
+		this.runConfig = runConfig;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage()
+	{
+		return message;
+	}
 
-    public RunInfo getRunConfig() {
-        return runConfig;
-    }
+	public RunInfo getRunConfig()
+	{
+		return runConfig;
+	}
 }
