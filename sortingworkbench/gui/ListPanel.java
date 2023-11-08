@@ -44,13 +44,15 @@ public class ListPanel extends JPanel
 		g.drawRect(1, 1, numElements + 2, numElements + 2);
 		g2.setStroke(oldStroke);
 
-		g.setColor(Color.BLUE);
-
-		// The list might be empty at the beginning, so we use list.size() instead of numElements
+		// The list might be empty at the beginning, so we use list.size()
+		// instead of numElements
 		for(int i = 0; i < this.listToShow.size(); ++i)
 		{
-			// g.drawRect(2 + i,  numElements - listToShow.get(i), 1, 1);
-			g.drawRect(2 + i,  numElements - listToShow.get(i), 1, listToShow.get(i));
+			Color c = Color.getHSBColor(
+				(float)listToShow.get(i) / this.listToShow.size(), 1, 1);
+			g.setColor(c);
+			g.drawRect(2 + i, numElements - listToShow.get(i), 1,
+				listToShow.get(i));
 		}
 
 		if(this.metrics != null)
