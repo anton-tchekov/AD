@@ -121,7 +121,6 @@ public class SortingWorkbench {
         new BubbleSort(),
         new QuickSort(),
         new MergeSort(),
-        new UltimateSort(),
     };
 
     /**

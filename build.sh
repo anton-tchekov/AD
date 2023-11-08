@@ -13,7 +13,6 @@ javac -Xlint:deprecation \
 	sortingworkbench/sorter/MergeSort.java \
 	sortingworkbench/sorter/QuickSort.java \
 	sortingworkbench/sorter/SelectionSort.java \
-	sortingworkbench/sorter/UltimateSort.java \
 	sortingworkbench/sorter/Sorter.java \
 	sortingworkbench/SortingMetrics.java \
 	sortingworkbench/SortingWorkbench.java \

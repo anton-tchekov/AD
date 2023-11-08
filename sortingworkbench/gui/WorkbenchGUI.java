@@ -86,7 +86,7 @@ public class WorkbenchGUI extends JFrame {
 
         this.elements = new DataRetriever().createIntegerList(listType, numElements);
         this.animationPane.setListToShow(this.elements);
-        DelayedSortingMetrics m = new DelayedSortingMetrics(listType, 5, 1);
+        DelayedSortingMetrics m = new DelayedSortingMetrics(listType, 1, 1);
         this.animationPane.setMetrics(m);
 
         this.timer = new Timer(50, e -> WorkbenchGUI.this.repaint());
