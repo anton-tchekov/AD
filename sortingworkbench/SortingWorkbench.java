@@ -75,8 +75,8 @@ public class SortingWorkbench {
 		return config;
 	}
 
-	public void executeWorkbench() {
-
+	public void executeWorkbench()
+	{
 		List<Integer> randomElements;
 		List<Integer> orderedElements;
 		List<Integer> reverseOrderedElements;
@@ -85,7 +85,8 @@ public class SortingWorkbench {
 
 		DataRetriever dr = new DataRetriever();
 
-		while (!this.getConfig().isFinished()) {
+		while(!this.getConfig().isFinished())
+		{
 			RunInfo runConfig = this.config.getNextRunConfig();
 
 			randomElements = dr.createRandomIntegerList(runConfig.getNumElements());
@@ -93,7 +94,8 @@ public class SortingWorkbench {
 			reverseOrderedElements = dr.createReverseOrderedIntegerList(runConfig.getNumElements());
 			partialOrderedElements = dr.createPartiallyOrderedIntegerList(runConfig.getNumElements(), runConfig.getPartialOrderedListSize());
 
-			for (Sorter sorter : sorters) {
+			for(Sorter sorter : sorters)
+			{
 				toSort = new ArrayList<>(randomElements);
 				sorter.sort(toSort, runConfig.getRandomMetricsFor(sorter));
 				assert ListValidator.validateOrder(toSort) : "Randomized list was not sorted!";
@@ -115,7 +117,8 @@ public class SortingWorkbench {
 		}
 	}
 
-	private static final Sorter[] knownSorters = new Sorter[] {
+	private static final Sorter[] knownSorters = new Sorter[]
+	{
 		new SelectionSort(),
 		new InsertionSort(),
 		new BubbleSort(),
@@ -129,32 +132,39 @@ public class SortingWorkbench {
 	 *
 	 * @param args Startargumente. Aktuell möglich "-v" zum Visualisieren der Sortieralgorithmen.
 	 */
-	public static void main(String[] args) {
-		if (args.length > 0 && args[0].equals("-v")) {
+	public static void main(String[] args)
+	{
+		if(args.length > 0 && args[0].equals("-v"))
+		{
 			visualizeSortingAlgorithm();
-		} else {
+		}
+		else
+		{
 			executeCompleteWorkbench();
 		}
 	}
 
-	private static void visualizeSortingAlgorithm() {
+	private static void visualizeSortingAlgorithm()
+	{
 		final int numElements = 800;
 
 		JFrame frame = new WorkbenchGUI(knownSorters, numElements);
 		frame.setVisible(true);
 	}
 
-	private static void executeCompleteWorkbench() {
+	private static void executeCompleteWorkbench()
+	{
 		List<Sorter> sorter = Arrays.asList(knownSorters);
 
 		WorkbenchConfig config = new WorkbenchConfig(sorter,20, 1000, 1000, 50);
 
 		SortingWorkbench wb = new SortingWorkbench(sorter, config);
 
-		wb.addProgressListener(event -> {
+		wb.addProgressListener(event ->
+		{
 			System.out.println(event.getMessage());
-
-			for (Sorter s : sorter) {
+			for(Sorter s : sorter)
+			{
 				SortingMetrics metRandom = event.getRunConfig().getRandomMetricsFor(s);
 				SortingMetrics metOrdered = event.getRunConfig().getOrderedMetricsFor(s);
 				SortingMetrics metReverse = event.getRunConfig().getReverseOrderedMetricsFor(s);

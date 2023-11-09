@@ -49,7 +49,7 @@ public class ListPanel extends JPanel
 		for(int i = 0; i < this.listToShow.size(); ++i)
 		{
 			Color c = Color.getHSBColor(
-				(float)listToShow.get(i) / this.listToShow.size(), 1, 1);
+				(float)listToShow.get(i) / this.listToShow.size(), 0.5f, 1.0f);
 			g.setColor(c);
 			g.drawRect(2 + i, numElements - listToShow.get(i), 1,
 				listToShow.get(i));
