@@ -1,6 +1,7 @@
 package sortingworkbench.sorter;
 
 import sortingworkbench.SortingMetrics;
+import sortingworkbench.util.ListValidator;
 
 import java.util.List;
 
@@ -43,6 +44,11 @@ public class InsertionSort extends BaseSort
 					break;
 				}
 			}
+		}
+
+		if(ListValidator.validateOrder(toSort))
+		{
+			System.out.println("Insertion Sort works");
 		}
 	}
 }
