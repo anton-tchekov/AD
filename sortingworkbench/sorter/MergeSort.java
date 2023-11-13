@@ -22,19 +22,19 @@ public class MergeSort extends BaseSort
 
 		List<T> testList = new LinkedList<T>();
 
-		testList.add((T) (Integer)1);
-		testList.add((T) (Integer)66);
-		testList.add((T) (Integer)84);
-		testList.add((T) (Integer)4);
-		testList.add((T) (Integer)53);
-		testList.add((T) (Integer)23);
-		atomicLists.add(testList);
+		atomicLists.add(toSort);
 
-		split(atomicLists, 0);
-		merge(atomicLists);
+		split(atomicLists, toSort, metrics, 0);
+		System.out.println("done splitting");
+		merge(atomicLists, toSort, metrics);
+		System.out.println("done merging");
+
+		System.out.println(atomicLists.size());
+
+		updateToSort(atomicLists, toSort);
 	}
 
-	private <T extends Comparable<T>> void merge(List<List<T>> atomicLists)
+	private <T extends Comparable<T>> void merge(List<List<T>> atomicLists, List<T> toSort, SortingMetrics metrics)
 	{
 		int leftIndex = 0;
 		int rightIndex = 0;
@@ -51,8 +51,11 @@ public class MergeSort extends BaseSort
 			{
 				if(atomicLists.get(leftIndex).get(leftCurrent).compareTo(atomicLists.get(rightIndex).get(rightCurrent)) <= 0)
 				{
+					metrics.incrementCompares();
 					atomicLists.get(rightIndex).add(rightCurrent, atomicLists.get(leftIndex).get(leftCurrent));
+					metrics.incrementMoves();
 					atomicLists.get(leftIndex).remove(leftCurrent);
+					metrics.incrementMoves();
 				}
 				else
 				{	 
@@ -60,54 +63,60 @@ public class MergeSort extends BaseSort
 					if(rightCurrent == atomicLists.get(rightIndex).size())
 					{
 						atomicLists.get(rightIndex).add(atomicLists.get(leftIndex).get(leftCurrent));
+						metrics.incrementMoves();
 						atomicLists.get(leftIndex).remove(leftCurrent);
+						metrics.incrementMoves();
 					}
 				}
 			}
 			atomicLists.remove(leftIndex); 
+			metrics.incrementMoves();
+			updateToSort(atomicLists, toSort);
 			rightCurrent = 0;
 			leftCurrent = 0;
 		}
 	}
 
-	private <T extends Comparable<T>> void split(List<List<T>> atomicLists, int atList)
+	private <T extends Comparable<T>> void split(List<List<T>> atomicLists, List<T> toSort, SortingMetrics metrics, int atList)
 	{
 		// Keep Track of the current list
 		List<T> currentList;
 
-		// Split the atomiclists further
-		currentList = atomicLists.get(atList);
-		atList = (atList + 1) % atomicLists.size();
+		while(!allSizeOne(atomicLists))
+		{
+			// Split the atomiclists further
+			currentList = atomicLists.get(atList);
+			atList = (atList + 1) % atomicLists.size();
 
-		if(allSizeOne(atomicLists)) 
-		{
-			return;
-		}
-		else if(currentList.size() == 1)
-		{
-			//System.out.println("Found Atomic");
-		}
-		else
-		{
-			int length = currentList.size();
-			int half_length = length / 2;
-
-			atomicLists.add(new LinkedList<T>());
-			atomicLists.add(new LinkedList<T>());
-		
-			for(int i = 0; i < half_length; i++) 
+			if(currentList.size() == 1)
 			{
-				atomicLists.get(atomicLists.size() - 2).add(currentList.get(i));
+				//System.out.println("Found Atomic");
 			}
-
-			for(int i = half_length; i < length; i++) 
+			else
 			{
-				atomicLists.get(atomicLists.size() - 1).add(currentList.get(i));
-			}
+				int length = currentList.size();
+				int half_length = length / 2;
+
+				atomicLists.add(new LinkedList<T>());
+				atomicLists.add(new LinkedList<T>());
 			
-			atomicLists.remove(currentList);
+				for(int i = 0; i < half_length; i++) 
+				{
+					atomicLists.get(atomicLists.size() - 2).add(currentList.get(i));
+					metrics.incrementMoves();
+				}
+
+				for(int i = half_length; i < length; i++) 
+				{
+					atomicLists.get(atomicLists.size() - 1).add(currentList.get(i));
+					metrics.incrementMoves();
+				}
+				
+				atomicLists.remove(currentList);
+				metrics.incrementMoves();
+				updateToSort(atomicLists, toSort);
+			}
 		}
-		split(atomicLists, atList);
 	}
 
 	private <T extends Comparable<T>> boolean allSizeOne(List<List<T>> atomicLists)
@@ -122,5 +131,14 @@ public class MergeSort extends BaseSort
 
 		return true;
 	}
+
+	private <T extends Comparable<T>> void updateToSort(List<List<T>> atomicLists, List<T> toSort)
+	{
+		for(int i = 0; i < atomicLists.get(0).size(); i++)
+			{
+				toSort.add(i, atomicLists.get(0).get(i));
+			}
+	}
 }
+
 
