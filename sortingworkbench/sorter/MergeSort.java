@@ -31,7 +31,7 @@ public class MergeSort extends BaseSort
 
 		System.out.println(atomicLists.size());
 
-		updateToSort(atomicLists, toSort);
+		updateToSort(atomicLists, toSort, 1);
 	}
 
 	private <T extends Comparable<T>> void merge(List<List<T>> atomicLists, List<T> toSort, SortingMetrics metrics)
@@ -71,7 +71,7 @@ public class MergeSort extends BaseSort
 			}
 			atomicLists.remove(leftIndex); 
 			metrics.incrementMoves();
-			updateToSort(atomicLists, toSort);
+			updateToSort(atomicLists, toSort, 0);
 			rightCurrent = 0;
 			leftCurrent = 0;
 		}
@@ -114,7 +114,7 @@ public class MergeSort extends BaseSort
 				
 				atomicLists.remove(currentList);
 				metrics.incrementMoves();
-				updateToSort(atomicLists, toSort);
+				updateToSort(atomicLists, toSort, 0);
 			}
 		}
 	}
@@ -132,12 +132,29 @@ public class MergeSort extends BaseSort
 		return true;
 	}
 
-	private <T extends Comparable<T>> void updateToSort(List<List<T>> atomicLists, List<T> toSort)
+	int testVar = 0;
+
+	private <T extends Comparable<T>> void updateToSort(List<List<T>> atomicLists, List<T> toSort, int overwrite)
 	{
-		for(int i = 0; i < atomicLists.get(0).size(); i++)
+		int atElement = 0;
+
+		if(testVar == 5 || overwrite == 1)
+		{
+			for(int i = 0; i < atomicLists.size(); i++)
 			{
-				toSort.add(i, atomicLists.get(0).get(i));
+				for(int j = 0; j < atomicLists.get(i).size(); j++)
+				{
+					toSort.add(atElement, atomicLists.get(i).get(j));
+					atElement++;
+				}
 			}
+
+			testVar = 0;
+		}
+		else
+		{
+			testVar++;
+		}
 	}
 }
 
