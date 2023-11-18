@@ -53,57 +53,34 @@ public class QuickSortOpt extends BaseSort
 			if(len <= THRESHOLD)
 			{
 				/* Insertion sort */
-				int n = start + 1;
-				for(int i = start; i < end; ++i)
+				for(int i = start + 1; i <= end; ++i)
 				{
-					T cur = toSort.get(i);
 					int j = i;
-					while(j > start && toSort.get(j - 1).compareTo(cur) > 0)
+					while(j > start && compare(toSort, j - 1, j, metrics) > 0)
 					{
-						metrics.incrementCompares();
-						metrics.incrementMoves();
-						toSort.set(j, toSort.get(j - 1));
+						swap(toSort, j, j - 1, metrics);
 						--j;
 					}
-
-					metrics.incrementMoves();
-					toSort.set(j, cur);
-					++n;
 				}
-
 			}
 			else
 			{
 				/* Quicksort */
-				int pivotIdx = ThreadLocalRandom.current().nextInt(start, end);
-				T pivot = toSort.get(pivotIdx);
-
-				swap(toSort, pivotIdx, end, metrics);
-
+				int pivot = ThreadLocalRandom.current().nextInt(start, end);
+				swap(toSort, pivot, end, metrics);
 				int s = start;
 				int e = end - 1;
-
 				while(s < e)
 				{
-					while(s < e && toSort.get(s).compareTo(pivot) <= 0)
-					{
-						metrics.incrementCompares();
-						++s;
-					}
-
-					while(e > s && toSort.get(e).compareTo(pivot) > 0)
-					{
-						metrics.incrementCompares();
-						--e;
-					}
-
-					if(toSort.get(s).compareTo(toSort.get(e)) > 0)
+					while(s < e && compare(toSort, s, end, metrics) <= 0) { ++s; }
+					while(e > s && compare(toSort, e, end, metrics) > 0) { --e; }
+					if(compare(toSort, s, e, metrics) > 0)
 					{
 						swap(toSort, s, e, metrics);
 					}
 				}
 
-				if(toSort.get(s).compareTo(pivot) > 0)
+				if(compare(toSort, s, end, metrics) > 0)
 				{
 					swap(toSort, s, end, metrics);
 				}
