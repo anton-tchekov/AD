@@ -46,35 +46,21 @@ public class QuickSort extends BaseSort
 				continue;
 			}
 
-			int pivotIdx = ThreadLocalRandom.current().nextInt(start, end);
-			T pivot = toSort.get(pivotIdx);
-
-			swap(toSort, pivotIdx, end, metrics);
-
+			int pivot = ThreadLocalRandom.current().nextInt(start, end);
+			swap(toSort, pivot, end, metrics);
 			int s = start;
 			int e = end - 1;
-
 			while(s < e)
 			{
-				while(s < e && toSort.get(s).compareTo(pivot) <= 0)
-				{
-					metrics.incrementCompares();
-					++s;
-				}
-
-				while(e > s && toSort.get(e).compareTo(pivot) > 0)
-				{
-					metrics.incrementCompares();
-					--e;
-				}
-
-				if(toSort.get(s).compareTo(toSort.get(e)) > 0)
+				while(s < e && compare(toSort, s, end, metrics) <= 0) { ++s; }
+				while(e > s && compare(toSort, e, end, metrics) > 0) { --e; }
+				if(compare(toSort, s, e, metrics) > 0)
 				{
 					swap(toSort, s, e, metrics);
 				}
 			}
 
-			if(toSort.get(s).compareTo(pivot) > 0)
+			if(compare(toSort, s, end, metrics) > 0)
 			{
 				swap(toSort, s, end, metrics);
 			}
