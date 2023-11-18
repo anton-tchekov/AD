@@ -31,51 +31,60 @@ public class QuickSort extends BaseSort
 	public <T extends Comparable<T>> void sort(List<T> toSort,
 		SortingMetrics metrics)
 	{
+		assert toSort != null;
+		assert metrics != null;
+
 		Deque<SubRange> stack = new ArrayDeque<SubRange>();
 		stack.addFirst(new SubRange(0, toSort.size() - 1));
 		while(!stack.isEmpty())
 		{
 			SubRange range = stack.removeFirst();
-			if(range.Start >= range.End)
+			int start = range.Start;
+			int end = range.End;
+			if(start >= end)
 			{
 				continue;
 			}
 
-			int i = range.Start;
-			int j = range.End - 1;
-			T pivot = toSort.get(range.End);
-			while(i < j)
+			int pivotIdx = ThreadLocalRandom.current().nextInt(start, end);
+			T pivot = toSort.get(pivotIdx);
+
+			swap(toSort, pivotIdx, end, metrics);
+
+			int s = start;
+			int e = end - 1;
+
+			while(s < e)
 			{
-				while(i < j && toSort.get(i).compareTo(pivot) <= 0)
+				while(s < e && toSort.get(s).compareTo(pivot) <= 0)
 				{
 					metrics.incrementCompares();
-					++i;
+					++s;
 				}
 
-				while(j > i && toSort.get(j).compareTo(pivot) > 0)
+				while(e > s && toSort.get(e).compareTo(pivot) > 0)
 				{
 					metrics.incrementCompares();
-					--j;
+					--e;
 				}
 
-				if(toSort.get(i).compareTo(toSort.get(j)) > 0)
+				if(toSort.get(s).compareTo(toSort.get(e)) > 0)
 				{
-					swap(toSort, i, j, metrics);
+					swap(toSort, s, e, metrics);
 				}
 			}
 
-			if(toSort.get(i).compareTo(pivot) > 0)
+			if(toSort.get(s).compareTo(pivot) > 0)
 			{
-				metrics.incrementCompares();
-				swap(toSort, i, range.End, metrics);
+				swap(toSort, s, end, metrics);
 			}
 			else
 			{
-				i = range.End;
+				s = end;
 			}
 
-			stack.addFirst(new SubRange(range.Start, i - 1));
-			stack.addFirst(new SubRange(i + 1, range.End));
+			stack.addFirst(new SubRange(start, s - 1));
+			stack.addFirst(new SubRange(s + 1, end));
 		}
 	}
 }

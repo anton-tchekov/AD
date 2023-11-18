@@ -123,6 +123,7 @@ public class SortingWorkbench {
 		new InsertionSort(),
 		new BubbleSort(),
 		new QuickSort(),
+		new QuickSortOpt(),
 		new MergeSort(),
 	};
 

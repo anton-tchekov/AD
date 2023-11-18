@@ -17,6 +17,9 @@ public class MergeSort extends BaseSort
 	public <T extends Comparable<T>> void sort(List<T> toSort,
 		SortingMetrics metrics)
 	{
+		assert toSort != null;
+		assert metrics != null;
+
 		// Result of the Splitting
 		List<List<T>> atomicLists = new LinkedList<List<T>>();
 
@@ -58,7 +61,7 @@ public class MergeSort extends BaseSort
 					metrics.incrementMoves();
 				}
 				else
-				{	 
+				{
 					rightCurrent++;
 					if(rightCurrent == atomicLists.get(rightIndex).size())
 					{
@@ -69,7 +72,7 @@ public class MergeSort extends BaseSort
 					}
 				}
 			}
-			atomicLists.remove(leftIndex); 
+			atomicLists.remove(leftIndex);
 			metrics.incrementMoves();
 			updateToSort(atomicLists, toSort, 0);
 			rightCurrent = 0;
@@ -99,19 +102,19 @@ public class MergeSort extends BaseSort
 
 				atomicLists.add(new LinkedList<T>());
 				atomicLists.add(new LinkedList<T>());
-			
-				for(int i = 0; i < half_length; i++) 
+
+				for(int i = 0; i < half_length; i++)
 				{
 					atomicLists.get(atomicLists.size() - 2).add(currentList.get(i));
 					metrics.incrementMoves();
 				}
 
-				for(int i = half_length; i < length; i++) 
+				for(int i = half_length; i < length; i++)
 				{
 					atomicLists.get(atomicLists.size() - 1).add(currentList.get(i));
 					metrics.incrementMoves();
 				}
-				
+
 				atomicLists.remove(currentList);
 				metrics.incrementMoves();
 				updateToSort(atomicLists, toSort, 0);
@@ -157,5 +160,3 @@ public class MergeSort extends BaseSort
 		}
 	}
 }
-
-

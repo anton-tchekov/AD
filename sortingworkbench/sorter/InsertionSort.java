@@ -17,6 +17,9 @@ public class InsertionSort extends BaseSort
 	public <T extends Comparable<T>> void sort(List<T> toSort,
 		SortingMetrics metrics)
 	{
+		assert toSort != null;
+		assert metrics != null;
+
 		int alreadySorted = 1;
 		T currentElement = null;
 
@@ -44,11 +47,6 @@ public class InsertionSort extends BaseSort
 					break;
 				}
 			}
-		}
-
-		if(ListValidator.validateOrder(toSort))
-		{
-			System.out.println("Insertion Sort works");
 		}
 	}
 }
