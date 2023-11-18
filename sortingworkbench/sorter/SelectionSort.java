@@ -19,23 +19,16 @@ public class SelectionSort extends BaseSort
 		int n = toSort.size();
 		for(int i = 0; i < n; ++i)
 		{
-			int minIdx = i;
-			T first = toSort.get(i);
-			T min = first;
+			int min = i;
 			for(int j = i + 1; j < n; ++j)
 			{
-				T cur = toSort.get(j);
-				metrics.incrementCompares();
-				if(cur.compareTo(min) < 0)
+				if(compare(toSort, j, min, metrics) < 0)
 				{
-					minIdx = j;
-					min = cur;
+					min = j;
 				}
 			}
 
-			toSort.set(i, min);
-			toSort.set(minIdx, first);
-			metrics.incrementMoves();
+			swap(toSort, i, min, metrics);
 		}
 	}
 }

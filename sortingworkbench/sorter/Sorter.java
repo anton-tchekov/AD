@@ -47,4 +47,11 @@ public interface Sorter
 
 		metrics.incrementMoves();
 	}
+
+	default<T extends Comparable<T>> int compare(List<T> source,
+		int e1, int e2, SortingMetrics metrics)
+	{
+		metrics.incrementCompares();
+		return source.get(e1).compareTo(source.get(e2));
+	}
 }
