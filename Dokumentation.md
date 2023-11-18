@@ -9,12 +9,35 @@ Teamnummer: ???
 Bearbeitet von: Haron Nazari (Matrikelnummer), Anton Tchekov (2672636)
 
 
-## Abstract
+#Dokumentation :
+
+##Abstract :
+
+##Einführung :
+
+In diesem Dokument wurde die Komplexität von den folgenden Sortieralgorithmen verglichen:
+Selectionsort,
+Bubblesort,
+Insertionsort,
+Mergesort,
+Quicksort und einer Kombination aus Quicksort und Insertionsort.
+
+Dabei wurde die Anzahl der Vergleiche und Verschiebungen gemessen bei unterschiedlichen Szenarien.
+Die Szenarien sind wie folgt :
+Zufällige Liste,
+Sortierte Liste,
+Teil-Sortierte Liste und
+Umgekehrt sortierte Liste mit jeweils größe N.
+
+N hatte dabei 10 verschiedene Werte in aufsteigender Größe... TODO
+
+##Verfahren/Implementation :
+
+Die Algorithmen wurden erstmal jeweils implementiert und mithilfe des SortingWorkbench[1] Tools gemessen
+und mithilfe einer Grafischen Oberfläche visualisiert.
 
 
-## Einführung
 
+##Validierung/Tests :
 
-## Beschreibung und Verfahren
-
-## Validierung und Tests
+##Quellen :
