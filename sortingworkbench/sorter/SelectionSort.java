@@ -16,6 +16,9 @@ public class SelectionSort extends BaseSort
 	public <T extends Comparable<T>> void sort(List<T> toSort,
 		SortingMetrics metrics)
 	{
+		assert toSort != null;
+		assert metrics != null;
+
 		int n = toSort.size();
 		for(int i = 0; i < n; ++i)
 		{

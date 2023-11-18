@@ -16,22 +16,20 @@ public class BubbleSort extends BaseSort
 	public <T extends Comparable<T>> void sort(List<T> toSort,
 		SortingMetrics metrics)
 	{
+		assert toSort != null;
+		assert metrics != null;
+
 		boolean repeat = true;
 		int n = toSort.size();
 		while(repeat)
 		{
 			repeat = false;
-			for(int curIdx = 1; curIdx < n; ++curIdx)
+			for(int cur = 1; cur < n; ++cur)
 			{
-				int prevIdx = curIdx - 1;
-				T prev = toSort.get(prevIdx);
-				T cur = toSort.get(curIdx);
-				metrics.incrementCompares();
-				if(cur.compareTo(prev) < 0)
+				int prev = cur - 1;
+				if(compare(toSort, cur, prev, metrics) < 0)
 				{
-					toSort.set(curIdx, prev);
-					toSort.set(prevIdx, cur);
-					metrics.incrementMoves();
+					swap(toSort, cur, prev, metrics);
 					repeat = true;
 				}
 			}
