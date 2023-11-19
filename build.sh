@@ -20,4 +20,3 @@ javac -Xlint:deprecation \
 	sortingworkbench/util/ProgressEvent.java \
 	sortingworkbench/util/WorkbenchProgressListener.java \
 	sortingworkbench/WorkbenchConfig.java \
-	sortingworkbench/sorter/SorterTester.java \
