@@ -1,9 +1,10 @@
 package sortingworkbench.sorter;
 
 import sortingworkbench.SortingMetrics;
+import sortingworkbench.util.ListValidator;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class MergeSort extends BaseSort
 {
@@ -17,146 +18,78 @@ public class MergeSort extends BaseSort
 	public <T extends Comparable<T>> void sort(List<T> toSort,
 		SortingMetrics metrics)
 	{
-		assert toSort != null;
-		assert metrics != null;
-
-		// Result of the Splitting
-		List<List<T>> atomicLists = new LinkedList<List<T>>();
-
-		List<T> testList = new LinkedList<T>();
-
-		atomicLists.add(toSort);
-
-		split(atomicLists, toSort, metrics, 0);
-		System.out.println("done splitting");
-		merge(atomicLists, toSort, metrics);
-		System.out.println("done merging");
-
-		System.out.println(atomicLists.size());
-
-		updateToSort(atomicLists, toSort, 1);
+		split(toSort, metrics);
 	}
 
-	private <T extends Comparable<T>> void merge(List<List<T>> atomicLists, List<T> toSort, SortingMetrics metrics)
+	private <T extends Comparable<T>> void split(List<T> result, SortingMetrics metrics)
 	{
-		int leftIndex = 0;
-		int rightIndex = 0;
+		int listLength = result.size();
 
-		int leftCurrent = 0;
-		int rightCurrent = 0;
-
-		while(atomicLists.size() > 1)
+		if(listLength == 1 || listLength == 0)
 		{
-			leftIndex = 0;
-			rightIndex = 1;
-
-			while(atomicLists.get(leftIndex).size() > 0)
-			{
-				if(atomicLists.get(leftIndex).get(leftCurrent).compareTo(atomicLists.get(rightIndex).get(rightCurrent)) <= 0)
-				{
-					metrics.incrementCompares();
-					atomicLists.get(rightIndex).add(rightCurrent, atomicLists.get(leftIndex).get(leftCurrent));
-					metrics.incrementMoves();
-					atomicLists.get(leftIndex).remove(leftCurrent);
-					metrics.incrementMoves();
-				}
-				else
-				{
-					rightCurrent++;
-					if(rightCurrent == atomicLists.get(rightIndex).size())
-					{
-						atomicLists.get(rightIndex).add(atomicLists.get(leftIndex).get(leftCurrent));
-						metrics.incrementMoves();
-						atomicLists.get(leftIndex).remove(leftCurrent);
-						metrics.incrementMoves();
-					}
-				}
-			}
-			atomicLists.remove(leftIndex);
-			metrics.incrementMoves();
-			updateToSort(atomicLists, toSort, 0);
-			rightCurrent = 0;
-			leftCurrent = 0;
-		}
-	}
-
-	private <T extends Comparable<T>> void split(List<List<T>> atomicLists, List<T> toSort, SortingMetrics metrics, int atList)
-	{
-		// Keep Track of the current list
-		List<T> currentList;
-
-		while(!allSizeOne(atomicLists))
-		{
-			// Split the atomiclists further
-			currentList = atomicLists.get(atList);
-			atList = (atList + 1) % atomicLists.size();
-
-			if(currentList.size() == 1)
-			{
-				//System.out.println("Found Atomic");
-			}
-			else
-			{
-				int length = currentList.size();
-				int half_length = length / 2;
-
-				atomicLists.add(new LinkedList<T>());
-				atomicLists.add(new LinkedList<T>());
-
-				for(int i = 0; i < half_length; i++)
-				{
-					atomicLists.get(atomicLists.size() - 2).add(currentList.get(i));
-					metrics.incrementMoves();
-				}
-
-				for(int i = half_length; i < length; i++)
-				{
-					atomicLists.get(atomicLists.size() - 1).add(currentList.get(i));
-					metrics.incrementMoves();
-				}
-
-				atomicLists.remove(currentList);
-				metrics.incrementMoves();
-				updateToSort(atomicLists, toSort, 0);
-			}
-		}
-	}
-
-	private <T extends Comparable<T>> boolean allSizeOne(List<List<T>> atomicLists)
-	{
-		for(int i = 0; i < atomicLists.size(); i++)
-		{
-			if(atomicLists.get(i).size() > 1)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	int testVar = 0;
-
-	private <T extends Comparable<T>> void updateToSort(List<List<T>> atomicLists, List<T> toSort, int overwrite)
-	{
-		int atElement = 0;
-
-		if(testVar == 5 || overwrite == 1)
-		{
-			for(int i = 0; i < atomicLists.size(); i++)
-			{
-				for(int j = 0; j < atomicLists.get(i).size(); j++)
-				{
-					toSort.add(atElement, atomicLists.get(i).get(j));
-					atElement++;
-				}
-			}
-
-			testVar = 0;
+			// Done
+			return;
 		}
 		else
 		{
-			testVar++;
+			ArrayList<T> leftHalf = new ArrayList<T>();
+			ArrayList<T> rightHalf = new ArrayList<T>();
+
+			int halfLength = listLength / 2;
+		
+			for(int i = 0; i < halfLength; i++)
+			{
+				leftHalf.add(result.get(i));
+				metrics.incrementMoves();
+			}
+			for(int i = halfLength; i < result.size(); i++)
+			{
+				rightHalf.add(result.get(i));
+				metrics.incrementMoves();
+			}
+
+			split(leftHalf, metrics);
+			split(rightHalf, metrics);
+
+			merge(result, leftHalf, rightHalf,metrics);
+		}
+	}
+
+	private <T extends Comparable<T>> void merge(List<T> combinedList, List<T> leftHalf, List<T> rightHalf, SortingMetrics metrics)
+	{
+		int leftHalfLength = leftHalf.size();
+		int rightHalfLength = rightHalf.size();
+
+		int combinedListIndex = 0;
+		int leftHalfIndex = 0;
+		int rightHalfIndex = 0;
+		
+		// Sort 2 sublists
+		while(leftHalfIndex < leftHalfLength && rightHalfIndex < rightHalfLength)
+		{
+			if (leftHalf.get(leftHalfIndex).compareTo(rightHalf.get(rightHalfIndex)) <= 0)
+			{
+				combinedList.set(combinedListIndex++, leftHalf.get(leftHalfIndex++));
+				metrics.incrementMoves();
+			}
+			else
+			{
+				combinedList.set(combinedListIndex++, rightHalf.get(rightHalfIndex++));
+				metrics.incrementMoves();
+			}
+			metrics.incrementCompares();
+		}
+
+		while(leftHalfIndex < leftHalfLength)
+		{
+			combinedList.set(combinedListIndex++, leftHalf.get(leftHalfIndex++));
+			metrics.incrementMoves();
+		}
+
+		while(rightHalfIndex < rightHalfLength)
+		{
+			combinedList.set(combinedListIndex++, rightHalf.get(rightHalfIndex++));
+			metrics.incrementMoves();
 		}
 	}
 }
