@@ -116,4 +116,12 @@ Insertion sort.
 
 ## Validierung/Tests
 
+Wir haben die Vorbedingungen unserer Sortieralgorithmen mit `assert`
+abgesichert (dass die zu sortierende List nicht null ist) und mithilfe
+von einem JUnit Test überprüft, dass alle Sortieralgorithmen auch
+korrekte Ergebnisse liefern. Dazu haben wir den vorgefertigen
+ListValidator verwendet.
+
 ## Quellen
+
+Vorlesungsfolien
