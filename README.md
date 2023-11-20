@@ -233,6 +233,7 @@ werden diese eingefügt.
         leftHalf.add(result.get(i));
         metrics.incrementMoves();
     }
+
     for(int i = halfLength; i < result.size(); i++)
     {
         rightHalf.add(result.get(i));
@@ -250,16 +251,15 @@ werden diese eingefügt.
 ```java
     while(leftHalfIndex < leftHalfLength && rightHalfIndex < rightHalfLength)
     {
-        if (leftHalf.get(leftHalfIndex).compareTo(rightHalf.get(rightHalfIndex)) <= 0)
+        if(leftHalf.get(leftHalfIndex).compareTo(rightHalf.get(rightHalfIndex)) <= 0)
         {
             combinedList.set(combinedListIndex++, leftHalf.get(leftHalfIndex++));
-            metrics.incrementMoves();
         }
         else
         {
             combinedList.set(combinedListIndex++, rightHalf.get(rightHalfIndex++));
-            metrics.incrementMoves();
         }
+        metrics.incrementMoves();
         metrics.incrementCompares();
     }
 ```
