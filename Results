@@ -82,7 +82,7 @@ Run 00004 with 40000 elements finished!
 	Swaps random: 1228928, ordered: 1228928, reverse: 1228928, partial ord.: 1228928
 	Compares random: 561903, ordered: 298432, reverse: 316032, partial ord.: 378086
 
-#### 100000 Elements only with optimized ####
+#### 1000000 Elements only with optimized ####
 Run 00010 with 1000000 elements finished!
   Results for QuickSort Basic:
 	Swaps random: 5135452, ordered: 1263496, reverse: 1503942, partial ord.: 1966946

@@ -29,7 +29,7 @@ Sortierte Liste,
 Teil-Sortierte Liste und
 Umgekehrt sortierte Liste mit jeweils größe N.
 
-N hatte dabei 10 verschiedene Werte in aufsteigender Größe... TODO
+N hatte dabei 10 verschiedene Werte in aufsteigender Größe 1000, 2000, 5000, 40000 und nur für Merge und Quicksort 100000 und 25000000
 
 ##Verfahren/Implementation :
 
