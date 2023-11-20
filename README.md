@@ -41,7 +41,7 @@ Sortierte Liste,
 Teil-Sortierte Liste und
 Umgekehrt sortierte Liste mit jeweils größe N.
 
-N hatte dabei 4/6 verschiedene Werte in aufsteigender Größe 1000, 2000, 5000, 40000 und nur für Merge und Quicksort 1000000
+N hatte dabei 4 oder 5 verschiedene Werte in aufsteigender Größe 1000, 2000, 5000, 40000 und nur für Merge und Quicksort-/Opt 1000000
 
 ## Verfahren/Implementation :
 
