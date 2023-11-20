@@ -69,10 +69,45 @@ Der Aufbau der Sortierklassen ist wie folgt :
 
 Alle Implementationen Erben von der gleichen Klasse und werden mithilfe der sort Operation aufgerufen.
 
-
 ### Implementierung von InsertionSort
 
+```java
+	int n = toSort.size();
+	for(int i = 1; i < n; ++i)
+	{
+		int j = i;
+		while(j > 0 && compare(toSort, j - 1, j, metrics) > 0)
+		{
+			swap(toSort, j, j - 1, metrics);
+			--j;
+		}
+	}
+```
+
 ### Implementierung von SelectionSort
+
+Bei SelectionSort wird immer das kleinste Element aus der verbleibenden
+unsortierten Teilliste ausgewählt, und an die passende Stelle plaziert.
+Der Vorteil ist, dass nur N Verschiebungen nötig sind, da jedes Element
+nie mehrmals bewegt wird. Nachteil ist die quadratisch wachsende Anzahl
+an Vergleichen.
+
+```java
+	int n = toSort.size();
+	for(int i = 0; i < n; ++i)
+	{
+		int min = i;
+		for(int j = i + 1; j < n; ++j)
+		{
+			if(compare(toSort, j, min, metrics) < 0)
+			{
+				min = j;
+			}
+		}
+
+		swap(toSort, i, min, metrics);
+	}
+```
 
 ### Implementierung von BubbleSort
 
@@ -85,7 +120,6 @@ Als Pivot-Element wird immer ein zufälliger Index gewählt, um den Fall,
 dass QuickSort quadratisch wird, sehr unwahrscheinlich zu machen.
 
 ```java
-
 	Deque<SubRange> stack = new ArrayDeque<SubRange>();
 	stack.addFirst(new SubRange(0, toSort.size() - 1));
 	while(!stack.isEmpty())
