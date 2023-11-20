@@ -10,7 +10,7 @@ import sortingworkbench.util.ListValidator;
 
 public class QuickSortOpt extends BaseSort
 {
-	private static final int THRESHOLD = 5;
+	private static final int THRESHOLD = 3;
 
 	class SubRange
 	{
@@ -92,11 +92,6 @@ public class QuickSortOpt extends BaseSort
 				stack.addFirst(new SubRange(start, s - 1));
 				stack.addFirst(new SubRange(s + 1, end));
 			}
-		}
-
-		if(!ListValidator.validateOrder(toSort))
-		{
-			System.out.println("Optimized QuickSort Failed Validation");
 		}
 	}
 }

@@ -200,8 +200,69 @@ dass QuickSort quadratisch wird, sehr unwahrscheinlich zu machen.
     }
 ```
 
-### Implementierung von MergeSort
 
+### Implementierung von Mergesort
+
+Mergesort teilt die Eingabeliste in Teillisten auf, bis in jeder Liste nur noch
+ein Element ist. Denn eine Liste mit einem Element ist immer sortiert. Diese
+Teillisten werden dann wieder zusammengefügt nach diesem Verfahren:
+
+Zwei Teillisten werden genommen. Jede Liste kriegt ihren eigenen Index.
+Wenn das Element bei dem Index von der ersten Liste kleiner ist als das Element
+bei dem Index von der zweiten Liste. Dann wird das Element die neue gemeinsame
+Liste eingefügt, dies gilt andersherum wenn das Element bei dem Index der ersten
+Liste größer ist.
+
+Der Index der Liste, die beim vergleich das kleinere Element hatte wird um eins
+erhöht.
+
+Dies wiederholt sich bis man beim letzten Element einer der Listen ankam, falls
+die andere Liste noch Elemente besitzt die nicht in die gemeinsame Liste sind,
+werden diese eingefügt.
+
+#### Aufteilung (Nur Auschnitt)
+
+```java
+    ArrayList<T> leftHalf = new ArrayList<T>();
+    ArrayList<T> rightHalf = new ArrayList<T>();
+
+    int halfLength = listLength / 2;
+
+    for(int i = 0; i < halfLength; i++)
+    {
+        leftHalf.add(result.get(i));
+        metrics.incrementMoves();
+    }
+    for(int i = halfLength; i < result.size(); i++)
+    {
+        rightHalf.add(result.get(i));
+        metrics.incrementMoves();
+    }
+
+    split(leftHalf, metrics);
+    split(rightHalf, metrics);
+
+    merge(result, leftHalf, rightHalf,metrics);
+```
+
+### Zusammenfügen der Teillisten (Nur Auschnitt)
+
+```java
+    while(leftHalfIndex < leftHalfLength && rightHalfIndex < rightHalfLength)
+    {
+        if (leftHalf.get(leftHalfIndex).compareTo(rightHalf.get(rightHalfIndex)) <= 0)
+        {
+            combinedList.set(combinedListIndex++, leftHalf.get(leftHalfIndex++));
+            metrics.incrementMoves();
+        }
+        else
+        {
+            combinedList.set(combinedListIndex++, rightHalf.get(rightHalfIndex++));
+            metrics.incrementMoves();
+        }
+        metrics.incrementCompares();
+    }
+```
 
 ## Ergebnisse
 
@@ -254,8 +315,9 @@ Wir haben die Vorbedingungen unserer Sortieralgorithmen mit `assert`
 abgesichert (dass die zu sortierende List nicht null ist) und mithilfe
 von einem JUnit Test überprüft, dass alle Sortieralgorithmen auch
 korrekte Ergebnisse liefern. Dazu haben wir den vorgefertigen
-ListValidator verwendet.
+`ListValidator` verwendet.
 
-## Quellen
-
-Vorlesungsfolien
+```java
+	assert toSort != null;
+	assert metrics != null;
+```

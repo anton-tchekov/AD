@@ -73,10 +73,5 @@ public class QuickSort extends BaseSort
 			stack.addFirst(new SubRange(start, s - 1));
 			stack.addFirst(new SubRange(s + 1, end));
 		}
-
-		if(!ListValidator.validateOrder(toSort))
-		{
-			System.out.println("Basic QuickSort Failed Validation");
-		}
 	}
 }
