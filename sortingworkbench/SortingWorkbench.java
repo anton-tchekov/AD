@@ -119,9 +119,9 @@ public class SortingWorkbench {
 
 	private static final Sorter[] knownSorters = new Sorter[]
 	{
-		//new SelectionSort(),
-		//new InsertionSort(),
-		//new BubbleSort(),
+		new SelectionSort(),
+		new InsertionSort(),
+		new BubbleSort(),
 		new QuickSort(),
 		new QuickSortOpt(),
 		new MergeSort(),
@@ -138,6 +138,33 @@ public class SortingWorkbench {
 		if(args.length > 0 && args[0].equals("-v"))
 		{
 			visualizeSortingAlgorithm();
+		}
+		else if(args.length > 0 && args[0].equals("-d"))
+		{
+			SortingMetrics.ListType[] listTypes = new SortingMetrics.ListType[]
+			{
+				SortingMetrics.ListType.RANDOM,
+				SortingMetrics.ListType.ORDERED,
+				SortingMetrics.ListType.REVERSE_ORDERED,
+				SortingMetrics.ListType.PARTIAL_ORDERED
+			};
+
+			DataRetriever dr = new DataRetriever();
+
+			for(int i = 100; i < 20000; i += 100)
+			{
+				for(int t = 0; t < listTypes.length; ++t)
+				{
+					for(int s = 0; s < knownSorters.length; ++s)
+					{
+						SortingMetrics m = new SortingMetrics(listTypes[t]);
+						List<Integer> data = dr.createIntegerList(listTypes[t], i);
+						knownSorters[s].sort(data, m);
+						System.out.println(i + "," + t + "," + s + "," +
+							m.getNumCompares() + "," + m.getNumMoves());
+					}
+				}
+			}
 		}
 		else
 		{
