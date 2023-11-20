@@ -67,7 +67,67 @@ Der Aufbau der Sortierklassen ist wie folgt :
 
 ![](UML.png)
 
-Alle Implementationen Erben von der gleichen Klasse und werden mithilfe der sort Operation aufgerufen
+Alle Implementationen Erben von der gleichen Klasse und werden mithilfe der sort Operation aufgerufen.
+
+
+### Implementierung von InsertionSort
+
+### Implementierung von SelectionSort
+
+### Implementierung von BubbleSort
+
+### Implementierung von QuickSort
+
+Bei der Implementierung von QuickSort haben wir einen separaten Stack
+statt Rekursion verwendet, um den Callstack zu entlasten.
+Die nächsten Arbeitsschritte werden immer auf die `Java-Deque` abgelegt.
+Als Pivot-Element wird immer ein zufälliger Index gewählt, um den Fall,
+dass QuickSort quadratisch wird, sehr unwahrscheinlich zu machen.
+
+```java
+
+	Deque<SubRange> stack = new ArrayDeque<SubRange>();
+	stack.addFirst(new SubRange(0, toSort.size() - 1));
+	while(!stack.isEmpty())
+	{
+		SubRange range = stack.removeFirst();
+		int start = range.Start;
+		int end = range.End;
+		if(start >= end)
+		{
+			continue;
+		}
+
+		int pivot = ThreadLocalRandom.current().nextInt(start, end);
+		swap(toSort, pivot, end, metrics);
+		int s = start;
+		int e = end - 1;
+		while(s < e)
+		{
+			while(s < e && compare(toSort, s, end, metrics) <= 0) { ++s; }
+			while(e > s && compare(toSort, e, end, metrics) > 0) { --e; }
+			if(compare(toSort, s, e, metrics) > 0)
+			{
+				swap(toSort, s, e, metrics);
+			}
+		}
+
+		if(compare(toSort, s, end, metrics) > 0)
+		{
+			swap(toSort, s, end, metrics);
+		}
+		else
+		{
+			s = end;
+		}
+
+		stack.addFirst(new SubRange(start, s - 1));
+		stack.addFirst(new SubRange(s + 1, end));
+	}
+```
+
+### Implementierung von MergeSort
+
 
 ## Ergebnisse
 
