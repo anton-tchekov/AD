@@ -44,7 +44,6 @@ public interface Sorter
 		T elemTmp = source.get(e1);
 		source.set(e1, source.get(e2));
 		source.set(e2, elemTmp);
-
 		metrics.incrementMoves();
 	}
 

@@ -67,21 +67,39 @@ Der Aufbau der Sortierklassen ist wie folgt :
 
 ![](UML.png)
 
-Alle Implementationen Erben von der gleichen Klasse und werden mithilfe der sort Operation aufgerufen.
+Alle Implementationen Erben von der gleichen Klasse und werden mithilfe der sort Operation aufgerufen. Das Interface stellt auch die folgenden zwei
+Hilfsfunktionen bereit, die als `default`-Operationen implementiert sind:
+
+`swap` vertauscht zwei Elemente in einer Liste und erhöht die Anzahl der
+Verschiebungen:
+
+```java
+    T elemTmp = source.get(e1);
+    source.set(e1, source.get(e2));
+    source.set(e2, elemTmp);
+    metrics.incrementMoves();
+```
+
+`compare` vergleicht zwei Elemente und erhöht die Anzahl an Vergleichen:
+
+```java
+    metrics.incrementCompares();
+    return source.get(e1).compareTo(source.get(e2));
+```
 
 ### Implementierung von InsertionSort
 
 ```java
-	int n = toSort.size();
-	for(int i = 1; i < n; ++i)
-	{
-		int j = i;
-		while(j > 0 && compare(toSort, j - 1, j, metrics) > 0)
-		{
-			swap(toSort, j, j - 1, metrics);
-			--j;
-		}
-	}
+    int n = toSort.size();
+    for(int i = 1; i < n; ++i)
+    {
+        int j = i;
+        while(j > 0 && compare(toSort, j - 1, j, metrics) > 0)
+        {
+            swap(toSort, j, j - 1, metrics);
+            --j;
+        }
+    }
 ```
 
 ### Implementierung von SelectionSort
@@ -93,23 +111,45 @@ nie mehrmals bewegt wird. Nachteil ist die quadratisch wachsende Anzahl
 an Vergleichen.
 
 ```java
-	int n = toSort.size();
-	for(int i = 0; i < n; ++i)
-	{
-		int min = i;
-		for(int j = i + 1; j < n; ++j)
-		{
-			if(compare(toSort, j, min, metrics) < 0)
-			{
-				min = j;
-			}
-		}
+    int n = toSort.size();
+    for(int i = 0; i < n; ++i)
+    {
+        int min = i;
+        for(int j = i + 1; j < n; ++j)
+        {
+            if(compare(toSort, j, min, metrics) < 0)
+            {
+                min = j;
+            }
+        }
 
-		swap(toSort, i, min, metrics);
-	}
+        swap(toSort, i, min, metrics);
+    }
 ```
 
 ### Implementierung von BubbleSort
+
+Die Implementierung von Bubblesort ist sehr kurz gehalten,
+Solange die Liste nicht sortiert ist geht Bubblesort durch die ganze Liste
+und prüft jeweils 2 Elemente. Die Elemente werden vertauscht bei einer aufsteigenden Liste sobald das erste der 2 Elemente größer ist als das zweite.
+
+```java
+    boolean repeat = true;
+    int n = toSort.size();
+    while(repeat)
+    {
+        repeat = false;
+        for(int cur = 1; cur < n; ++cur)
+        {
+            int prev = cur - 1;
+            if(compare(toSort, cur, prev, metrics) < 0)
+            {
+                swap(toSort, cur, prev, metrics);
+                repeat = true;
+            }
+        }
+    }
+```
 
 ### Implementierung von QuickSort
 
@@ -120,44 +160,44 @@ Als Pivot-Element wird immer ein zufälliger Index gewählt, um den Fall,
 dass QuickSort quadratisch wird, sehr unwahrscheinlich zu machen.
 
 ```java
-	Deque<SubRange> stack = new ArrayDeque<SubRange>();
-	stack.addFirst(new SubRange(0, toSort.size() - 1));
-	while(!stack.isEmpty())
-	{
-		SubRange range = stack.removeFirst();
-		int start = range.Start;
-		int end = range.End;
-		if(start >= end)
-		{
-			continue;
-		}
+    Deque<SubRange> stack = new ArrayDeque<SubRange>();
+    stack.addFirst(new SubRange(0, toSort.size() - 1));
+    while(!stack.isEmpty())
+    {
+        SubRange range = stack.removeFirst();
+        int start = range.Start;
+        int end = range.End;
+        if(start >= end)
+        {
+            continue;
+        }
 
-		int pivot = ThreadLocalRandom.current().nextInt(start, end);
-		swap(toSort, pivot, end, metrics);
-		int s = start;
-		int e = end - 1;
-		while(s < e)
-		{
-			while(s < e && compare(toSort, s, end, metrics) <= 0) { ++s; }
-			while(e > s && compare(toSort, e, end, metrics) > 0) { --e; }
-			if(compare(toSort, s, e, metrics) > 0)
-			{
-				swap(toSort, s, e, metrics);
-			}
-		}
+        int pivot = ThreadLocalRandom.current().nextInt(start, end);
+        swap(toSort, pivot, end, metrics);
+        int s = start;
+        int e = end - 1;
+        while(s < e)
+        {
+            while(s < e && compare(toSort, s, end, metrics) <= 0) { ++s; }
+            while(e > s && compare(toSort, e, end, metrics) > 0) { --e; }
+            if(compare(toSort, s, e, metrics) > 0)
+            {
+                swap(toSort, s, e, metrics);
+            }
+        }
 
-		if(compare(toSort, s, end, metrics) > 0)
-		{
-			swap(toSort, s, end, metrics);
-		}
-		else
-		{
-			s = end;
-		}
+        if(compare(toSort, s, end, metrics) > 0)
+        {
+            swap(toSort, s, end, metrics);
+        }
+        else
+        {
+            s = end;
+        }
 
-		stack.addFirst(new SubRange(start, s - 1));
-		stack.addFirst(new SubRange(s + 1, end));
-	}
+        stack.addFirst(new SubRange(start, s - 1));
+        stack.addFirst(new SubRange(s + 1, end));
+    }
 ```
 
 ### Implementierung von MergeSort
@@ -200,7 +240,7 @@ Quicksort ist hingegen bei einer Zufälligen Eingabe
 am Langsamsten
 
 `Swaps random: 5135452, ordered: 1263496, reverse: 1503942, partial ord.: 1966946
-	Compares random: 36809452, ordered: 25792912, reverse: 26814466, partial ord.: 27367267`
+    Compares random: 36809452, ordered: 25792912, reverse: 26814466, partial ord.: 27367267`
 
 Das kann man hierbei sehen bei dem Test von einer Million Elementen
 Zufällige Eingaben waren dabei 2-3 mal Aufwändiger bei Swappen.
