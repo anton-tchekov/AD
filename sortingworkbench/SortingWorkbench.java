@@ -119,9 +119,9 @@ public class SortingWorkbench {
 
 	private static final Sorter[] knownSorters = new Sorter[]
 	{
-		new SelectionSort(),
-		new InsertionSort(),
-		new BubbleSort(),
+		//new SelectionSort(),
+		//new InsertionSort(),
+		//new BubbleSort(),
 		new QuickSort(),
 		new QuickSortOpt(),
 		new MergeSort(),
@@ -157,7 +157,7 @@ public class SortingWorkbench {
 	{
 		List<Sorter> sorter = Arrays.asList(knownSorters);
 
-		WorkbenchConfig config = new WorkbenchConfig(sorter, 20, 1000, 1000, 50);
+		WorkbenchConfig config = new WorkbenchConfig(sorter,100, 1000000, 1000000, 50);
 
 		SortingWorkbench wb = new SortingWorkbench(sorter, config);
 
