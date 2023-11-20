@@ -1,6 +1,4 @@
-# AD
-
-Algorithmen und Datenstrukturen
+# Algorithmen und Datenstrukturen
 
 Aufgabe 2: SortingWorkbench
 
@@ -20,12 +18,27 @@ Run (GUI):
 
 `./run.sh`
 
+# Dokumentation
 
-# Dokumentation :
+## Abstract
 
-## Abstract :
+Im Rahmen der zweiten Praktikumsaufgabe haben wir verschiedene
+Sortieralgorithmen in ihrer Effizenz verglichen. Um dabei
+einen fairen Vergleich zu ermöglichen, haben wir die Anzahl
+der Vergleiche und der Verschiebungen anstelle einer Messung
+der Rechenzeit gezählt. Betrachtet wurden SelectionSort,
+InsertionSort, BubbleSort, QuickSort, MergeSort und ein
+Modifizierter QuickSort Algorithmus.
 
-## Einführung :
+Wie erwartet schneidet Bubblesort am schlechtesten ab,
+während Quicksort und Mergesort am besten sind, da es
+sich um `O(n log n)` Algorithmen handelt. Insgesamt
+braucht QuickSort in Durchschnitt am wenigsten Operationen.
+
+Ein Optimierter Quicksort-Algorithmus, der bei kleinen
+Teillisten InsertionSort nutzt, schneidet nur leicht besser ab.
+
+## Einführung
 
 In diesem Dokument wurde die Komplexität von den folgenden Sortieralgorithmen verglichen:
 Selectionsort,
@@ -43,7 +56,7 @@ Umgekehrt sortierte Liste mit jeweils größe N.
 
 N hatte dabei 4 oder 5 verschiedene Werte in aufsteigender Größe 1000, 2000, 5000, 40000 und nur für Merge und Quicksort-/Opt 1000000
 
-## Verfahren/Implementation :
+## Verfahren/Implementation
 
 Die Algorithmen wurden erstmal jeweils in Java implementiert und mithilfe des SortingWorkbench[1] Tools gemessen
 und mithilfe einer Grafischen Oberfläche visualisiert.
@@ -56,8 +69,7 @@ Der Aufbau der Sortierklassen ist wie folgt :
 
 Alle Implementationen Erben von der gleichen Klasse und werden mithilfe der sort Operation aufgerufen
 
-
-## Ergebnisse :
+## Ergebnisse
 
 Wir haben die Algorithmen für die oben beschriebenen Menge and Elementen Laufen lassen und die Werte mithilfe der Metrics klasse
 Dokumentieren lassen, die Sortingworkbench hat uns daraufhin die Ergebnisse ausgegeben.
@@ -90,7 +102,7 @@ Hier ist zu beachten das Bubblesort und Insertion Sort gleiche Werte aufwiesen u
 
 Bei zufälligen eingaben sieht man den Vorteil von Merge und Quicksort, jedoch haben sie bei verschiedenen Eingaben auch Nachteile. Denn bei Mergesort ist bestcase = averagecase = worstcase, was heißt das egal was eingegeben wird es immer gleich viel Aufwand betreibt auch wenn sie vorher schon sortiert oder teilsortiert war. Dies gilt auch für Selection sort.
 
-Quicksort ist hingegen bei einer Zufälligen Eingabe 
+Quicksort ist hingegen bei einer Zufälligen Eingabe
 am Langsamsten
 
 `Swaps random: 5135452, ordered: 1263496, reverse: 1503942, partial ord.: 1966946
@@ -102,8 +114,6 @@ Zufällige Eingaben waren dabei 2-3 mal Aufwändiger bei Swappen.
 Bubblesort und Insertion Sort sind besser bei sortierten oder teil-sortierten Eingaben, jedoch braucht Bubblesort viel mehr Vergleiche als
 Insertion sort.
 
+## Validierung/Tests
 
-## Validierung/Tests :
-
-## Quellen :
-
+## Quellen
