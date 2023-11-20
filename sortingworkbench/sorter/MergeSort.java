@@ -1,7 +1,6 @@
 package sortingworkbench.sorter;
 
 import sortingworkbench.SortingMetrics;
-import sortingworkbench.util.ListValidator;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class MergeSort extends BaseSort
 			ArrayList<T> rightHalf = new ArrayList<T>();
 
 			int halfLength = listLength / 2;
-		
+
 			for(int i = 0; i < halfLength; i++)
 			{
 				leftHalf.add(result.get(i));
@@ -65,7 +64,7 @@ public class MergeSort extends BaseSort
 		int combinedListIndex = 0;
 		int leftHalfIndex = 0;
 		int rightHalfIndex = 0;
-		
+
 		// Sort 2 sublists
 		while(leftHalfIndex < leftHalfLength && rightHalfIndex < rightHalfLength)
 		{

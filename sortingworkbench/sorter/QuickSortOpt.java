@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Deque;
 import java.util.ArrayDeque;
 import java.util.concurrent.ThreadLocalRandom;
-import sortingworkbench.util.ListValidator;
 
 public class QuickSortOpt extends BaseSort
 {

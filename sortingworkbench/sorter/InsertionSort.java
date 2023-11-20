@@ -1,7 +1,6 @@
 package sortingworkbench.sorter;
 
 import sortingworkbench.SortingMetrics;
-import sortingworkbench.util.ListValidator;
 
 import java.util.List;
 

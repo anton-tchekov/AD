@@ -1,6 +1,7 @@
 echo "Building ... \(^_^)/"
 
 javac -Xlint:deprecation \
+	sortingworkbench/sorter/SorterTester.java \
 	sortingworkbench/DataRetriever.java \
 	sortingworkbench/gui/DelayedSortingMetrics.java \
 	sortingworkbench/gui/ListPanel.java \

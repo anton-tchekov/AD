@@ -1,13 +1,16 @@
 
 package sortingworkbench.sorter;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
+import org.junit.Test;
 
 import sortingworkbench.DataRetriever;
 import sortingworkbench.SortingMetrics;
 import sortingworkbench.util.ListValidator;
 
-public class SorterTester
+public class SorterTester2
 {
 	private boolean testSorter(Sorter sorter)
 	{
@@ -40,33 +43,39 @@ public class SorterTester
 		return true;
 	}
 
+	@Test
 	public void testSelectionSort()
 	{
-		System.out.println("testSelectionSort: " + testSorter(new SelectionSort()));
+		assertTrue(testSorter(new SelectionSort()));
 	}
 
+	@Test
 	public void testInsertionSort()
 	{
-		System.out.println("testInsertionSort: " + testSorter(new InsertionSort()));
+		assertTrue(testSorter(new InsertionSort()));
 	}
 
+	@Test
 	public void testBubbleSort()
 	{
-		System.out.println("testBubbleSort: " + testSorter(new BubbleSort()));
+		assertTrue(testSorter(new BubbleSort()));
 	}
 
+	@Test
 	public void testQuickSort()
 	{
-		System.out.println("testQuickSort: " + testSorter(new QuickSort()));
+		assertTrue(testSorter(new QuickSort()));
 	}
 
+	@Test
 	public void testMergeSort()
 	{
-		System.out.println("testMergeSort: " + testSorter(new MergeSort()));
+		assertTrue(testSorter(new MergeSort()));
 	}
 
+	@Test
 	public void testQuickSortOpt()
 	{
-		System.out.println("testQuickSortOpt: " + testSorter(new QuickSortOpt()));
+		assertTrue(testSorter(new QuickSortOpt()));
 	}
 }

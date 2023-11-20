@@ -135,6 +135,14 @@ public class SortingWorkbench {
 	 */
 	public static void main(String[] args)
 	{
+		SorterTester st = new SorterTester();
+		st.testBubbleSort();
+		st.testInsertionSort();
+		st.testSelectionSort();
+		st.testQuickSort();
+		st.testMergeSort();
+		st.testQuickSortOpt();
+
 		if(args.length > 0 && args[0].equals("-v"))
 		{
 			visualizeSortingAlgorithm();

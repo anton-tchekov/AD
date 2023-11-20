@@ -48,13 +48,14 @@ Mergesort,
 Quicksort und einer Kombination aus Quicksort und Insertionsort.
 
 Dabei wurde die Anzahl der Vergleiche und Verschiebungen gemessen bei unterschiedlichen Szenarien.
-Die Szenarien sind wie folgt :
+Die Szenarien sind wie folgt:
 Zufällige Liste,
 Sortierte Liste,
 Teil-Sortierte Liste und
-Umgekehrt sortierte Liste mit jeweils größe N.
+Umgekehrt sortierte Liste mit jeweils Größe N.
 
-N hatte dabei 4 oder 5 verschiedene Werte in aufsteigender Größe 1000, 2000, 5000, 40000 und nur für Merge und Quicksort-/Opt 1000000
+N hatte dabei 4 oder 5 verschiedene Werte in aufsteigender Größe: 1000, 2000,
+5000, 40000 und nur für Merge und Quicksort-/Opt 1000000
 
 ## Verfahren/Implementation
 
