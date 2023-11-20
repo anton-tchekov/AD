@@ -157,7 +157,7 @@ public class SortingWorkbench {
 	{
 		List<Sorter> sorter = Arrays.asList(knownSorters);
 
-		WorkbenchConfig config = new WorkbenchConfig(sorter,20, 1000, 1000, 50);
+		WorkbenchConfig config = new WorkbenchConfig(sorter, 20, 1000, 1000, 50);
 
 		SortingWorkbench wb = new SortingWorkbench(sorter, config);
 
