@@ -18,6 +18,8 @@ public class MergeSort extends BaseSort
 	public <T extends Comparable<T>> void sort(List<T> toSort,
 		SortingMetrics metrics)
 	{
+		assert toSort != null;
+		assert metrics != null;
 		split(toSort, metrics);
 	}
 
