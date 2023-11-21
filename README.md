@@ -6,7 +6,7 @@ Datum: 08.11.2023
 
 Praktikumsgruppe: 3
 
-Teamnummer: ???
+Team: C
 
 Bearbeitet von: Haron Nazari (2686963), Anton Tchekov (2672636)
 
