@@ -1,4 +1,4 @@
-package de.hawhamburg.hamann.ad.trees;
+package trees;
 
 import java.util.function.Consumer;
 
