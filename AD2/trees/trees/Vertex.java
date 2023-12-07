@@ -40,17 +40,28 @@ public class Vertex<E>
 		return neighbours.size();
 	}
 
+  public int getNeighbourWeight(Vertex<E> vertex)
+  {
+    Integer result = getNeighbours().get(vertex);
+
+    if(result == null)
+    {
+      throw new IllegalArgumentException("Given Vertices have no Link");
+    }
+
+    return result.intValue();
+  }
+
 	public String toString()
 	{
 		String result = getContent() + ":" + "(";
 
 		for(Map.Entry<Vertex<E>, Integer> entry : getNeighbours().entrySet())
 		{
-			result += entry.getKey().getContent() + " -" + entry.getValue() +"-> ";
+			result += "[" + entry.getKey().getContent().toString() + "," + entry.getValue() +"] ";
 		}
-
-		result = result.substring(0, result.length() - 6);
 		result += ") ";
 		return result;
 	}
+
 }

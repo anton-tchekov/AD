@@ -1,8 +1,13 @@
 package trees;
 
 import java.util.Set;
+import java.util.Stack;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Graph<E>
 {
@@ -126,6 +131,138 @@ public class Graph<E>
 		secondVertex.removeLink(firstVertex);
 	}
 
+  public Vertex<E> breadthSearch(Vertex<E> startVertex, E toSearch)
+  {
+    Queue<Vertex<E>> internalQueue = new LinkedList<Vertex<E>>();
+    HashSet<Vertex<E>> markedSet = new HashSet<Vertex<E>>();
+    Vertex<E> currentVertex;
+
+    if(startVertex == null) { throw new NullPointerException("startVertex is null"); }
+    if(toSearch == null) { throw new NullPointerException("toSearch is null"); }
+
+    // Add startVertex to the queue as setup
+    internalQueue.add(startVertex);
+
+    // Aslong as the Queue isnt Empty
+    while(internalQueue.size() > 0)
+    {
+      // Dequeue the first Vertex
+      currentVertex = internalQueue.poll();
+      markedSet.add(currentVertex);
+
+      // If the current Vertex is the correct Element, return it
+      if(currentVertex.getContent() == toSearch)
+      {
+        return currentVertex;
+      }
+      else
+      {
+        // else Enqueue all neighbours of the current vertex
+        for(Map.Entry<Vertex<E>, Integer> entry : currentVertex.getNeighbours().entrySet())
+        {
+          // Dont add the Vertex if its already Marked
+          if(!markedSet.contains(entry.getKey()))
+          {
+            internalQueue.add(entry.getKey());
+          } 
+        }
+      }
+    }
+
+    // If the queue is empty and the element wasnt found return null
+    return null;
+  }
+
+  public Vertex<E> depthSearch(Vertex<E> startVertex, E toSearch)
+  {
+    Stack<Vertex<E>> internalStack = new Stack<Vertex<E>>();
+    HashSet<Vertex<E>> markedSet = new HashSet<Vertex<E>>();
+    Vertex<E> currentVertex;
+
+    if(startVertex == null) { throw new NullPointerException("startVertex is null"); }
+    if(toSearch == null) { throw new NullPointerException("toSearch is null"); }
+
+    // Add startVertex to the queue as setup
+    internalStack.add(startVertex);
+
+    // Aslong as the Queue isnt Empty
+    while(internalStack.size() > 0)
+    {
+      // Dequeue the first Vertex
+      currentVertex = internalStack.pop();
+      markedSet.add(currentVertex);
+
+      // If the current Vertex is the correct Element, return it
+      if(currentVertex.getContent() == toSearch)
+      {
+        return currentVertex;
+      }
+      else
+      {
+        // else Enqueue all neighbours of the current vertex
+        for(Map.Entry<Vertex<E>, Integer> entry : currentVertex.getNeighbours().entrySet())
+        {
+          // Dont add the Vertex if its already Marked
+          if(!markedSet.contains(entry.getKey()))
+          {
+            internalStack.add(entry.getKey());
+          } 
+        }
+      }
+    }
+
+    // If the queue is empty and the element wasnt found return null
+    return null;
+  }
+
+  public List<Vertex<E>> dijkstraSearch(Vertex<E> startVertex, E toSearch)
+  {
+    // Create a PriorityQueue and a marketSet
+    PriorityQueue<dijkstraStorage<E>> internalPriorityQueue = new PriorityQueue<dijkstraStorage<E>>();
+    HashSet<Vertex<E>> markedSet = new HashSet<Vertex<E>>();
+    dijkstraStorage<E> startStorage = new dijkstraStorage<E>(null, startVertex, 0);
+    dijkstraStorage<E> currentStorage;
+
+    // put the startVertex into the Queue
+    internalPriorityQueue.add(startStorage);
+
+    while(internalPriorityQueue.size() > 0)
+    {
+      currentStorage = internalPriorityQueue.poll();
+      markedSet.add(currentStorage.getVertex());
+
+      // If the current vertex contains the toSearch Element, stop and return the Path
+      if(currentStorage.getVertex().getContent() == toSearch)
+      {
+        List<Vertex<E>> prevList = new LinkedList<Vertex<E>>();
+
+        while(currentStorage.getPrevStorage() != null)
+        {
+          prevList.add(0, currentStorage.getVertex());
+          currentStorage = currentStorage.getPrevStorage();
+        }
+
+        return prevList;
+      }
+
+      // else add all Neighbours into the PriorityQueue that werent visited
+      for(Map.Entry<Vertex<E>, Integer> entry : currentStorage.getVertex().getNeighbours().entrySet())
+      {
+        // Dont add the Vertex if its already Marked
+        if(!markedSet.contains(entry.getKey()))
+        {
+          // Use the current weight of the storage plus the edge weight as new weight
+          dijkstraStorage<E> newStorage = new dijkstraStorage<E>(currentStorage, entry.getKey(), currentStorage.getWeight() + entry.getValue());
+          internalPriorityQueue.add(newStorage);
+        } 
+      }
+    }
+    
+    // If the queue is empty and the element wasnt found return null
+    return null;
+  }
+
+  @Override
 	public String toString()
 	{
 		String result = "";
