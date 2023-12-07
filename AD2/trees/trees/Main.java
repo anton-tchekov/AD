@@ -7,53 +7,43 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-    /* Es ist nicht genug platz für uns beide in der Main
-         ___
-     __|___|__
-      ('o_o')
-      _\~-~/_    ______.
-     //\__/\ \ ~(_]---'
-    / )O  O( .\/_)
-    \ \    / \_/
-    )/_|  |_\
-   // /(\/)\ \
-   /_/      \_\
-  (_||      ||_)
-    \| |__| |/
-     | |  | |
-     | |  | |
-     |_|  |_|
-    /_\  /_\
+		/* Es ist nicht genug Platz für uns beide in der Main
+		 *
+		 *        ___
+		 *     __|___|__
+		 *      ('o_o')
+		 *      _\~-~/_    ______.
+		 *     //\__/\ \ ~(_]---'
+		 *    / )O  O( .\/_)
+		 *    \ \    / \_/
+		 *    )/_|  |_\
+		 *   // /(\/)\ \
+		 *   /_/      \_\
+		 *  (_||      ||_)
+		 *    \| |__| |/
+		 *     | |  | |
+		 *     | |  | |
+		 *     |_|  |_|
+		 *    /_\  /_\
+		 *
+		 * Das stimmt xD, deswegen gehe ich in ne eigene Datei, bitte die
+		 * nachfolgende Zeile nicht erschiessen.
+		 */
+		new TreeTest().runTests();
 
+		Graph<String> g = new Graph<String>();
 
+		Vertex<String> A = new Vertex<String>("A");
+		Vertex<String> B = new Vertex<String>("B");
+		Vertex<String> C = new Vertex<String>("C");
 
-		BinarySearchTree<String, Integer> tree = new BSTree<String, Integer>();
+		g.addVertex(A);
+		g.addVertex(B);
+		g.addVertex(C);
 
-		tree.insert("Hello", 12);
-		tree.insert("LOL", 12);
+		g.addLink(A, B);
+		g.addLink(C, A);
 
-		System.out.println("Hello : " + tree.get("Hello"));
-
-		System.out.println("LOL : " + tree.get("LOL"));
-
-		System.out.println("Hello world");
-    */
-
-    Graph<String> g = new Graph<String>();
-
-    Vertex<String> A = new Vertex<String>("A");
-    Vertex<String> B = new Vertex<String>("B");
-    Vertex<String> C = new Vertex<String>("C");
-
-    g.addVertex(A);
-    g.addVertex(B);
-    g.addVertex(C);
-
-    g.addLink(A, B);
-    g.addLink(C, A);
-
-    System.out.println(g.toString());
-    
-
+		System.out.println(g.toString());
 	}
 }
