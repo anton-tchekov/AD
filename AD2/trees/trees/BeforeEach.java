@@ -1,5 +1,6 @@
 package trees;
 
-public @interface BeforeEach {
+public @interface BeforeEach
+{
 
 }

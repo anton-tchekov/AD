@@ -80,9 +80,11 @@ public class BSTree<K extends Comparable<K>, E>
 	}
 
 	@Override
-	public E get(K k) throws NoSuchElementException {
+	public E get(K k) throws NoSuchElementException
+	{
 		E e = _get(k);
-		if(e == null) {
+		if(e == null)
+		{
 			throw new NoSuchElementException();
 		}
 
@@ -90,12 +92,14 @@ public class BSTree<K extends Comparable<K>, E>
 	}
 
 	@Override
-	public int size() {
+	public int size()
+	{
 		return _count;
 	}
 
 	@Override
-	public boolean contains(K k) {
+	public boolean contains(K k)
+	{
 		return _get(k) != null;
 	}
 }
