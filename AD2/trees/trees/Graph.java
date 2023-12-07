@@ -2,6 +2,7 @@ package trees;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
 
 public class Graph<E>
 {
@@ -37,11 +38,11 @@ public class Graph<E>
 		vertices.add(vertex);
 	}
 
-	public void addVertex(E content, Vertex<E> link)
+	public void addVertex(E content, Vertex<E> link, int weight)
   {
     Vertex<E> newVertex = new Vertex<E>(content);
     addVertex(newVertex);
-    addLink(newVertex, link);
+    addLink(newVertex, link, weight);
   }
 
 	public void removeVertex(Vertex<E> vertex)
@@ -51,27 +52,27 @@ public class Graph<E>
 			throw new NullPointerException("Either of the vertices is null");
 		}
 
-		// Remove all Neighbors of the vertex, if they exist in the same Graph
-		// if they dont... thats bad
-		for(Vertex<E> v : vertex.getNeighbours())
-		{
-			if(!vertices.contains(vertex))
-			{
-				throw new IllegalStateException("Vertex has Neighbours that arent in the same Graph");
-			}
-
-			vertex.removeLink(v);
-		}
-
 		if(!vertices.contains(vertex))
 		{
 			throw new IllegalArgumentException("Vertex doesnt exist in Graph");
 		}
 
+		// Remove all Neighbors of the vertex, if they exist in the same Graph
+		// if they dont... thats bad
+		for(Map.Entry<Vertex<E>, Integer> entry : vertex.getNeighbours().entrySet())
+		{
+			if(!vertices.contains(entry.getKey()))
+			{
+				throw new IllegalStateException("Vertex has Neighbours that arent in the same Graph");
+			}
+
+			vertex.removeLink(entry.getKey());
+		}
+
 		vertices.remove(vertex);
 	}
 
-	public void addLink(Vertex<E> firstVertex, Vertex<E> secondVertex)
+	public void addLink(Vertex<E> firstVertex, Vertex<E> secondVertex, int weight)
 	{
 		if(firstVertex == null || secondVertex == null)
 		{
@@ -88,14 +89,14 @@ public class Graph<E>
 			throw new IllegalArgumentException("secondVertex is not part of the Graph");
 		}
 
-		if(firstVertex.getNeighbours().contains(secondVertex) &&
-			secondVertex.getNeighbours().contains(firstVertex))
+		if(firstVertex.getNeighbours().containsKey(secondVertex) &&
+			secondVertex.getNeighbours().containsKey(firstVertex))
 		{
 			throw new IllegalArgumentException("Link already exists");
 		}
 
-		firstVertex.addLink(secondVertex);
-		secondVertex.addLink(firstVertex);
+		firstVertex.addLink(secondVertex, weight);
+		secondVertex.addLink(firstVertex, weight);
 	}
 
 	public void removeLink(Vertex<E> firstVertex, Vertex<E> secondVertex)
@@ -115,8 +116,8 @@ public class Graph<E>
 			throw new IllegalArgumentException("secondVertex isnt part of the Graph");
 		}
 
-		if(!firstVertex.getNeighbours().contains(secondVertex) &&
-			!secondVertex.getNeighbours().contains(firstVertex))
+		if(!firstVertex.getNeighbours().containsKey(secondVertex) &&
+			!secondVertex.getNeighbours().containsKey(firstVertex))
 		{
 			throw new IllegalArgumentException("Link doesnt exist");
 		}

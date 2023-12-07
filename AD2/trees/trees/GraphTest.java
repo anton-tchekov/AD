@@ -66,7 +66,7 @@ public class GraphTest
   {
     Vertex<String> A = new Vertex<String>("A");
     g.addVertex(A);
-    g.addVertex("B", A);
+    g.addVertex("B", A, 5);
 
     assertTrue(A.getNeighbours().size() > 0);
   }

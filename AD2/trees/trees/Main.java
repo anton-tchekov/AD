@@ -41,8 +41,12 @@ public class Main
 		g.addVertex(B);
 		g.addVertex(C);
 
-		g.addLink(A, B);
-		g.addLink(C, A);
+		g.addLink(A, B, 3);
+		g.addLink(C, A, 2);
+
+		g.addVertex("D", A, 2);
+		g.addVertex("E", A, 3);
+		g.addVertex("F", A, 5);
 
 		System.out.println(g.toString());
 	}
