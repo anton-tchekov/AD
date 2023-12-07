@@ -37,6 +37,13 @@ public class Graph<E>
 		vertices.add(vertex);
 	}
 
+	public void addVertex(E content, Vertex<E> link)
+  {
+    Vertex<E> newVertex = new Vertex<E>(content);
+    addVertex(newVertex);
+    addLink(newVertex, link);
+  }
+
 	public void removeVertex(Vertex<E> vertex)
 	{
 		if(vertex == null)

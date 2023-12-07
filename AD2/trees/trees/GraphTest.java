@@ -60,4 +60,14 @@ public class GraphTest
 		g.addVertex(C);
 		g.addVertex(D);
 	}
+
+	@Test
+  public void testAddVertexWithLink()
+  {
+    Vertex<String> A = new Vertex<String>("A");
+    g.addVertex(A);
+    g.addVertex("B", A);
+
+    assertTrue(A.getNeighbours().size() > 0);
+  }
 }
