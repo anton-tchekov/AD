@@ -187,6 +187,35 @@ public class GraphTest
     assertFalse(g.breadthSearch(A, "Z") != null);
   }
 
+  public void testBreadthSearchVorlesung()
+  {
+    Vertex<String> A = new Vertex<String>("A");
+		Vertex<String> B = new Vertex<String>("B");
+		Vertex<String> C = new Vertex<String>("C");
+    Vertex<String> D = new Vertex<String>("D");
+		Vertex<String> E = new Vertex<String>("E");
+
+    g.addVertex(A);
+    g.addVertex(B);
+    g.addVertex(C);
+    g.addVertex(D);
+    g.addVertex(E);
+
+    g.addLink(A, B, 0);
+    g.addLink(A, C, 0);
+    g.addLink(C, D, 0);
+    g.addLink(D, B, 0);
+    g.addLink(C, E, 0);
+
+    assertTrue(g.breadthSearch(A, "A") != null);
+    assertTrue(g.breadthSearch(A, "B") != null);
+    assertTrue(g.breadthSearch(A, "C") != null);
+    assertTrue(g.breadthSearch(A, "D") != null);
+    assertTrue(g.breadthSearch(A, "E") != null);
+
+    assertFalse(g.breadthSearch(A, "F") != null);
+  }
+
   @Test (expected = NullPointerException.class)
   public void testDepthSearch()
   {
@@ -212,6 +241,36 @@ public class GraphTest
     assertTrue(g.depthSearch(A, "E") != null);
 
     assertFalse(g.depthSearch(A, "Z") != null);
+  }
+
+  @Test
+  public void testDepthSearchVorlesung()
+  {
+    Vertex<String> A = new Vertex<String>("A");
+		Vertex<String> B = new Vertex<String>("B");
+		Vertex<String> C = new Vertex<String>("C");
+    Vertex<String> D = new Vertex<String>("D");
+		Vertex<String> E = new Vertex<String>("E");
+
+    g.addVertex(A);
+    g.addVertex(B);
+    g.addVertex(C);
+    g.addVertex(D);
+    g.addVertex(E);
+
+    g.addLink(A, B, 0);
+    g.addLink(A, C, 0);
+    g.addLink(C, D, 0);
+    g.addLink(D, B, 0);
+    g.addLink(C, E, 0);
+
+    assertTrue(g.depthSearch(A, "A") != null);
+    assertTrue(g.depthSearch(A, "B") != null);
+    assertTrue(g.depthSearch(A, "C") != null);
+    assertTrue(g.depthSearch(A, "D") != null);
+    assertTrue(g.depthSearch(A, "E") != null);
+
+    assertFalse(g.depthSearch(A, "F") != null);
   }
 
   @Test

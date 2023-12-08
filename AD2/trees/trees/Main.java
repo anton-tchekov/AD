@@ -1,6 +1,7 @@
 package trees;
 
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class Main
 {
@@ -31,18 +32,34 @@ public class Main
 		new TreeTest().runTests();
     
 		
-    dijkstraBenchmarkCSV(10000, 10, 10);
+    dijkstraBenchmarkCSV(5000, 10, 10);
 
 	}
 
   public static void dijkstraBenchmarkCSV(int repeats, int increment, int samplesPerIncrement)
   {
     int graph_size = 0;
+    Semaphore sem = new Semaphore(12);
     System.out.println("Graphsize,time in ms");
     for(int i = 0; i < repeats; i++)
     {
       graph_size += increment;
-      threadTest(samplesPerIncrement, graph_size);
+      final int size = graph_size;
+      try {
+        sem.acquire();
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      new Thread(new Runnable() 
+      {
+        @Override
+        public void run() 
+        {
+          threadTest(10, size);
+        }
+      }).start();
+      sem.release();
     }
   }
 
