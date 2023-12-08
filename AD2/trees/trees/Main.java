@@ -32,41 +32,31 @@ public class Main
 		new TreeTest().runTests();
     
 		
-    dijkstraBenchmarkCSV(5000, 10, 10);
+    dijkstraBenchmarkCSV(1000, 1000, 10);
 
 	}
 
-  public static void dijkstraBenchmarkCSV(int repeats, int increment, int samplesPerIncrement)
+    public static void dijkstraBenchmarkCSV(int repeats, int increment, int samplesPerIncrement)
   {
     int graph_size = 0;
-    Semaphore sem = new Semaphore(12);
+    int average = 0;
     System.out.println("Graphsize,time in ms");
     for(int i = 0; i < repeats; i++)
     {
       graph_size += increment;
-      final int size = graph_size;
-      try {
-        sem.acquire();
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      new Thread(new Runnable() 
+      average = 0;
+      for(int j = 0; j < samplesPerIncrement; j++)
       {
-        @Override
-        public void run() 
-        {
-          threadTest(10, size);
-        }
-      }).start();
-      sem.release();
+        average += Graph.randomDijkstraSearchBenchmark(graph_size);
+      }
+      System.out.println(graph_size + "," + average/samplesPerIncrement);
     }
   }
 
   public static void threadTest(int samplesPerIncrement, int graph_size)
   {
     int average = 0;
-    
+
     for(int j = 0; j < samplesPerIncrement; j++)
     {
       average += Graph.randomDijkstraSearchBenchmark(graph_size);
