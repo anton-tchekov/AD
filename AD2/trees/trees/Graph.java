@@ -220,14 +220,18 @@ public class Graph<E>
     // Create a PriorityQueue and a marketSet
     PriorityQueue<dijkstraStorage<E>> internalPriorityQueue = new PriorityQueue<dijkstraStorage<E>>();
     HashSet<Vertex<E>> markedSet = new HashSet<Vertex<E>>();
-    dijkstraStorage<E> startStorage = new dijkstraStorage<E>(null, startVertex, 0);
     dijkstraStorage<E> currentStorage;
+
+    // Start with a visited- zero cost- start vertex
+    dijkstraStorage<E> startStorage = new dijkstraStorage<E>(null, startVertex, 0);
 
     // put the startVertex into the Queue
     internalPriorityQueue.add(startStorage);
 
+    // Aslong as the internalqueue isnt empty
     while(internalPriorityQueue.size() > 0)
     {
+      // Dequeue the internal priority
       currentStorage = internalPriorityQueue.poll();
       markedSet.add(currentStorage.getVertex());
 

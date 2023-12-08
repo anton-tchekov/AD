@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -211,5 +212,50 @@ public class GraphTest
     assertTrue(g.depthSearch(A, "E") != null);
 
     assertFalse(g.depthSearch(A, "Z") != null);
+  }
+
+  @Test
+  public void testDijkstraSearch()
+  {
+    // Adding 10 vertices
+    Vertex<String> A = new Vertex<>("A");
+    Vertex<String> B = new Vertex<>("B");
+    Vertex<String> C = new Vertex<>("C");
+    Vertex<String> D = new Vertex<>("D");
+    Vertex<String> E = new Vertex<>("E");
+    Vertex<String> F = new Vertex<>("F");
+    Vertex<String> G = new Vertex<>("G");
+    Vertex<String> H = new Vertex<>("H");
+    Vertex<String> I = new Vertex<>("I");
+    Vertex<String> J = new Vertex<>("J");
+
+    g.addVertex(A);
+    g.addVertex(B);
+    g.addVertex(C);
+    g.addVertex(D);
+    g.addVertex(E);
+    g.addVertex(F);
+    g.addVertex(G);
+    g.addVertex(H);
+    g.addVertex(I);
+    g.addVertex(J);
+
+    // Adding links between vertices
+    g.addLink(A, B, 3);
+    g.addLink(B, C, 2);
+    g.addLink(C, D, 5);
+    g.addLink(D, E, 4);
+    g.addLink(E, F, 1);
+    g.addLink(F, G, 7);
+    g.addLink(G, H, 2);
+    g.addLink(H, I, 3);
+    g.addLink(I, J, 6);
+
+    List<Vertex<String>> result = g.dijkstraSearch(A, "E");
+
+    assertTrue(result.get(0) == B);
+    assertTrue(result.get(1) == C);
+    assertTrue(result.get(2) == D);
+    assertTrue(result.get(3) == E);
   }
 }
