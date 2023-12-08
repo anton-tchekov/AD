@@ -23,6 +23,16 @@ class TreeTest
 
 		System.out.println("Hello world");
 
+		for(int n = 100; n <= 10000; n += 100)
+		{
+			for(int i = 0; i < 1000; ++i)
+			{
+				BinarySearchTree<Integer, Integer> bst = new BSTree<Integer, Integer>();
+				//for(int ; )
+				//bst.
+			}
+		}
+
 		System.out.println("\n\n#######################################################\n\n\n\n");
 	}
 }
