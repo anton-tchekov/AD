@@ -219,7 +219,6 @@ public class Graph<E>
 
   public List<Vertex<E>> dijkstraSearch(Vertex<E> startVertex, E toSearch)
   {
-    // Create a PriorityQueue and a marketSet
     PriorityQueue<dijkstraStorage<E>> internalPriorityQueue = new PriorityQueue<dijkstraStorage<E>>();
     HashSet<Vertex<E>> markedSet = new HashSet<Vertex<E>>();
     dijkstraStorage<E> currentStorage;
@@ -234,13 +233,12 @@ public class Graph<E>
     while(internalPriorityQueue.size() > 0)
     {
       //System.out.print("Current Queue Weights: " + internalPriorityQueue);
-      // Dequeue the internal priority
       currentStorage = internalPriorityQueue.poll();
       //System.out.println(" Chosen Weight: " + currentStorage.getWeight());
       markedSet.add(currentStorage.getVertex());
 
       // If the current vertex contains the toSearch Element, stop and return the Path
-      if(currentStorage.getVertex().getContent() == toSearch)
+      if (currentStorage.getVertex().getContent().equals(toSearch))
       {
         List<Vertex<E>> prevList = new LinkedList<Vertex<E>>();
 
@@ -293,7 +291,7 @@ public class Graph<E>
       // If the current vertex contains the toSearch Element, stop and return the Path
       if(currentStorage.getVertex() == toSearch)
       {
-        List<Vertex<E>> prevList = new LinkedList<Vertex<E>>();
+        List<Vertex<E>> prevList = new ArrayList<Vertex<E>>();
 
         while(currentStorage != null)
         {
@@ -321,29 +319,30 @@ public class Graph<E>
     return null;
   }
 
-  public static long randomDijkstraSearchBenchmark(int graphSize)
+  public static Graph<Integer> createRandomGraph(Vertex<Integer> start, int graphSize)
   {
     Graph<Integer> graph = new Graph<Integer>();
-    List<Vertex<Integer>> bestPath;
 
-    Vertex<Integer> start = new Vertex<>(0);
     Vertex<Integer> destination = new Vertex<>(graphSize+1);
 
     /* Create a random Graph first */
     Vertex<Integer> lastVertex = start;
     Vertex<Integer> newVertex;
-    List<Vertex<Integer>> addedVertices = new ArrayList<Vertex<Integer>>();
+    List<Vertex<Integer>> addedVertices = new ArrayList<>(graphSize + 1);
     
     /* add the start vertex to the list of total vertices in the graph */
     addedVertices.add(start);
     graph.addVertex(start);
+    graph.addVertex(destination);
+
+    Random random = new Random(System.currentTimeMillis());
 
     for(int i = 1; i < graphSize+1; i++)
     {
       // Get random values to generate a random graph
-      int random_weight1 = new Random().nextInt(15);
-      int random_weight2 = new Random().nextInt(15);
-      int random_vertex = new Random().nextInt(addedVertices.size());
+      int random_weight1 = random.nextInt(15);
+      int random_weight2 = random.nextInt(15);
+      int random_vertex;
 
       // Create a new Vertex and add it to the total amount of vertexes, content doesnt matter
       newVertex = new Vertex<Integer>(i);
@@ -352,45 +351,58 @@ public class Graph<E>
 
       // Add a link to the last vertex and a random one, ensures theres no gaps in the graph and gives alternative paths
       graph.addLink(newVertex, lastVertex, random_weight1);
-      
-      try
+
+      // If the Link already exists try again
+      while(true)
       {
-        graph.addLink(addedVertices.get(random_vertex), newVertex, random_weight2);
-      }
-      catch(Exception IllegalArgumentException)
-      {
-        // If the Link already exists try just skip it
+        try
+        {
+          int max = addedVertices.size();
+          int min = 0;
+
+          if(max > 10)
+          {
+            min = addedVertices.size() - addedVertices.size()/10;
+          }
+
+          random_vertex = random.nextInt(max - min + 1) + min;
+          graph.addLink(addedVertices.get(random_vertex), newVertex, random_weight2);
+        }
+        catch(Exception IllegalArgumentException)
+        {
+          
+          continue;
+        }
+
+        break;
       }
 
       lastVertex = newVertex;
     }
 
-    //System.out.println(graph.toString());
+    graph.addLink(lastVertex, destination, random.nextInt(15));
+
+    return graph;
+  }
+
+  public static long randomDijkstraSearchBenchmark(int graphSize)
+  {
+    Graph<Integer> graph = new Graph<Integer>();
+    List<Vertex<Integer>> bestPath;
+
+    Vertex<Integer> start = new Vertex<>(0);
+
+    graph = createRandomGraph(start, graphSize);
 
     // Benchmark the dijkstra search
     long startSearchTime = System.currentTimeMillis();
-    bestPath = graph.dijkstraSearch(start, graphSize);
+    bestPath = graph.dijkstraSearch(start, graphSize+1);
     long doneSearchTime = System.currentTimeMillis() - startSearchTime;
 
-    // Print the Path
-    /*
-    System.out.print("0 -> ");
-    int path_weight = 0;
-    for(int i = 0; i < bestPath.size(); i++)
+    if(bestPath == null)
     {
-      System.out.print(bestPath.get(i).getContent());
-      if(i != bestPath.size()-1)
-      {
-        //System.out.print(" -> ");
-        path_weight += bestPath.get(i).getNeighbourWeight(bestPath.get(i + 1));
-      }
-      else
-      {
-        path_weight += start.getNeighbourWeight(bestPath.get(0));
-        System.out.println(" Overall Weight: " + path_weight);
-      }
+      throw new NullPointerException("No path between destination and start");
     }
-    */
 
     // return the time it took for the random dijkstra
     return doneSearchTime;
