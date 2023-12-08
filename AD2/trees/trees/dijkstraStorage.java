@@ -39,24 +39,17 @@ public class dijkstraStorage<E> implements Comparable<dijkstraStorage<E>>
   @Override
   public int compareTo(dijkstraStorage<E> o) 
   {
-    if(o == null)
+    if (o == null) 
     {
-      throw new IllegalArgumentException("Object for compareTo is null");
+      throw new NullPointerException("Object for compareTo is null");
     }
+    
+    return Integer.compare(this.getWeight(), o.getWeight());
+  }
 
-    if(o.getWeight() == this.getWeight())
-    {
-      return 0;
-    }
-    else if(o.getWeight() > this.getWeight())
-    {
-      return 1;
-    }
-    else if(o.getWeight() < this.getWeight())
-    {
-      return -1;
-    }
-  
-    return 0;
+  @Override
+  public String toString()
+  {
+    return Integer.toString(weightSum);
   }
 }
