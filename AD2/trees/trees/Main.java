@@ -31,18 +31,23 @@ public class Main
 		new TreeTest().runTests();
     
 		
-    dijkstraBenchmarkCSV(1000, 1000);
+    dijkstraBenchmarkCSV(10000, 10, 10);
 
 	}
 
-  public static void dijkstraBenchmarkCSV(int repeats, int increment)
+  public static void dijkstraBenchmarkCSV(int repeats, int increment, int samplesPerIncrement)
   {
     int graph_size = 0;
+    int average = 0;
     System.out.println("Graphsize,time in ms");
     for(int i = 0; i < repeats; i++)
     {
       graph_size += increment;
-      System.out.println(graph_size + "," + Graph.randomDijkstraSearchBenchmark(graph_size));
+      for(int j = 0; j < samplesPerIncrement; j++)
+      {
+        average += Graph.randomDijkstraSearchBenchmark(graph_size);
+      }
+      System.out.println(graph_size + "," + average/samplesPerIncrement);
     }
   }
 }

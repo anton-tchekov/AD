@@ -289,7 +289,7 @@ public class Graph<E>
       markedSet.add(currentStorage.getVertex());
 
       // If the current vertex contains the toSearch Element, stop and return the Path
-      if(currentStorage.getVertex() == toSearch)
+      if(currentStorage.getVertex().equals(toSearch))
       {
         List<Vertex<E>> prevList = new ArrayList<Vertex<E>>();
 
