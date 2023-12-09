@@ -317,4 +317,34 @@ public class GraphTest
     assertTrue(result.get(2) == D);
     assertTrue(result.get(3) == E);
   }
+
+  @Test
+  public void testDijkstraSearchVorlesung()
+  {
+    Vertex<String> A = new Vertex<>("A");
+    Vertex<String> B = new Vertex<>("B");
+    Vertex<String> C = new Vertex<>("C");
+    Vertex<String> D = new Vertex<>("D");
+    Vertex<String> E = new Vertex<>("E");
+
+    g.addVertex(A);
+    g.addVertex(B);
+    g.addVertex(C);
+    g.addVertex(D);
+    g.addVertex(E);
+
+    g.addLink(A, B, 1);
+    g.addLink(A, C, 6);
+    g.addLink(B, C, 4);
+    g.addLink(B, D, 2);
+    g.addLink(D, C, 1);
+    g.addLink(C, E, 2);
+
+    List<Vertex<String>> result = g.dijkstraSearch(A, "E");
+    
+    assertTrue(result.get(0) == B);
+    assertTrue(result.get(1) == D);
+    assertTrue(result.get(2) == C);
+    assertTrue(result.get(3) == E);
+  }
 }
