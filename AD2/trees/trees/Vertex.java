@@ -72,6 +72,6 @@ public class Vertex<E>
 		}
 		result += ") ";
 		return result;
-	}
+  }
 
 }

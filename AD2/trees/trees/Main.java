@@ -30,35 +30,49 @@ public class Main
 		 * nachfolgende Zeile nicht erschiessen.
 		 */
 		new TreeTest().runTests();
+  
+    dijkstraBenchmarkCSV(10000, 10, 20);
     
-		long start = System.currentTimeMillis();
-    dijkstraBenchmarkCSV(1000000, 10, 20);
-    long done = System.currentTimeMillis() - start;
-
-    System.out.println("Operation took ms : " + done);
-
 	}
 
   public static void dijkstraBenchmarkCSV(int repeats, int increment, int samplesPerIncrement)
   {
-    int graph_size = 0;
+    int graph_size = 10;
 
     System.out.println("Graphsize,time in ms");
     for(int i = 0; i < repeats; i++)
     {
-      graph_size += increment;
       threadTest(samplesPerIncrement, graph_size);
+      graph_size += increment;
+      increment += increment/10;
     }
   }
 
   public static void threadTest(int samplesPerIncrement, int graph_size)
   {
-    int average = 0;
+    long average = 0;
+    long min = 1000000000;
+    long max = 0;
+
+    long currentSample = 0;
 
     for(int j = 0; j < samplesPerIncrement; j++)
     {
-      average += Graph.randomDijkstraSearchBenchmark(graph_size);
+      currentSample = Graph.randomDijkstraSearchBenchmark(graph_size);
+      //average += currentSample;
+
+      if(currentSample > max)
+      {
+        max = currentSample;
+      }
+
+      if(currentSample < min)
+      {
+        min = currentSample;
+      }
     }
-    System.out.println(graph_size + "," + average/samplesPerIncrement);
+    //average /= samplesPerIncrement;
+
+    System.out.println(graph_size + "," + max);
   }
 }

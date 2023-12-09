@@ -394,14 +394,66 @@ public class Graph<E>
     return graph;
   }
 
+  private static HashSet<Vertex<Integer>> addEightNeighbours(Graph<Integer> graph, Vertex<Integer> vertex)
+  {
+    Random random = new Random(System.currentTimeMillis());
+    HashSet<Vertex<Integer>> lastOuterliners = new HashSet<Vertex<Integer>>(8);
+    Vertex<Integer> lastAdded;
+
+    // Surround the current existing vertices with more
+    for(int j = 0; j < 8; j++)
+    {
+      int random_weight1 = random.nextInt(15);
+
+      lastAdded = new Vertex<Integer>(j);
+
+      graph.addVertex(lastAdded);
+      graph.addLink(lastAdded, vertex, random_weight1);
+      lastOuterliners.add(lastAdded);
+    }
+
+    return lastOuterliners;
+  }
+
+  public static Graph<Integer> createSquareGraph(Vertex<Integer> start, int rectangleSize, Vertex<Integer> lastAdded)
+  {
+    Graph<Integer> graph = new Graph<Integer>();
+
+    Vertex<Integer> destination = new Vertex<>(rectangleSize+1);
+    HashSet<Vertex<Integer>> lastOuterliners;
+
+    /* Create a random Graph first */
+    Vertex<Integer> currentVertex = start;
+    
+    /* add the start vertex to the list of total vertices in the graph */
+    graph.addVertex(start);
+    graph.addVertex(destination);
+
+    for(int i = 0; i < rectangleSize; i++)
+    {
+      lastOuterliners = addEightNeighbours(graph, currentVertex);
+
+      for(Vertex<Integer> v : lastOuterliners)
+      {
+        addEightNeighbours(graph, v);
+        currentVertex = v;
+      }
+    }
+    lastAdded = currentVertex;
+
+    return graph;
+  }
+
   public static long randomDijkstraSearchBenchmark(int graphSize)
   {
     Graph<Integer> graph = new Graph<Integer>();
     List<Vertex<Integer>> bestPath;
 
     Vertex<Integer> start = new Vertex<>(0);
+    Vertex<Integer> destination = null;
 
     graph = createRandomGraph(start, graphSize);
+    //graph = createSquareGraph(start, graphSize, destination);
 
     // Benchmark the dijkstra search
     long startSearchTime = System.currentTimeMillis();
