@@ -340,7 +340,7 @@ public class Graph<E>
     for(int i = 1; i < graphSize+1; i++)
     {
       // Get random values to generate a random graph
-      int random_weight1 = random.nextInt(15);
+      int random_weight1 = random.nextInt(30 - 15) + 15;
       int random_weight2 = random.nextInt(15);
       int random_vertex;
 
@@ -353,34 +353,27 @@ public class Graph<E>
       graph.addLink(newVertex, lastVertex, random_weight1);
 
       // If the Link already exists try again
-      while(true)
+      for(int j = 0; j < 50; j++)
       {
-        try
-        {
-          int max = addedVertices.size();
-          int min = 0;
+        int max = addedVertices.size();
+        int min = 0;
 
-          if(max > 10)
-          {
-            min = addedVertices.size() - addedVertices.size()/10;
-          }
-
-          random_vertex = random.nextInt(max - min + 1) + min;
-          graph.addLink(addedVertices.get(random_vertex), newVertex, random_weight2);
-        }
-        catch(Exception IllegalArgumentException)
+        random_vertex = random.nextInt(max - min) + min;
+        
+        if(addedVertices.get(random_vertex).areNeighbours(newVertex))
         {
           
-          continue;
         }
-
-        break;
+        else
+        {
+          graph.addLink(addedVertices.get(random_vertex), newVertex, random_weight2);
+        }
       }
 
       lastVertex = newVertex;
     }
 
-    graph.addLink(lastVertex, destination, random.nextInt(15));
+    graph.addLink(lastVertex, destination, random.nextInt(50));
 
     return graph;
   }
