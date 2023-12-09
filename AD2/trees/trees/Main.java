@@ -31,7 +31,7 @@ public class Main
 		 */
 		new TreeTest().runTests();
   
-    dijkstraBenchmarkCSV(10000, 10, 20);
+    dijkstraBenchmarkCSV(10, 10000, 10);
     
 	}
 
@@ -44,7 +44,7 @@ public class Main
     {
       threadTest(samplesPerIncrement, graph_size);
       graph_size += increment;
-      increment += increment/10;
+      //increment += increment/10;
     }
   }
 
@@ -74,5 +74,6 @@ public class Main
     //average /= samplesPerIncrement;
 
     System.out.println(graph_size + "," + max);
+    System.gc();
   }
 }

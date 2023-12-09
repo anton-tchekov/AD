@@ -339,6 +339,7 @@ public class Graph<E>
 
     for(int i = 1; i < graphSize+1; i++)
     {
+
       // Get random values to generate a random graph
       int random_weight1 = random.nextInt(30 - 15) + 15;
       int random_weight2 = random.nextInt(15);
@@ -372,6 +373,8 @@ public class Graph<E>
       lastVertex = newVertex;
     }
 
+    System.gc();
+
     // Add the Destination to random nodes towards the end
     for(int i = 0; i < 3; i++)
     {
@@ -390,7 +393,7 @@ public class Graph<E>
       }
     }
     
-
+    System.gc();
     return graph;
   }
 
@@ -415,6 +418,7 @@ public class Graph<E>
     return lastOuterliners;
   }
 
+  // Not working
   public static Graph<Integer> createSquareGraph(Vertex<Integer> start, int rectangleSize, Vertex<Integer> lastAdded)
   {
     Graph<Integer> graph = new Graph<Integer>();
