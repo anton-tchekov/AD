@@ -32,7 +32,7 @@ public class Main
 		new TreeTest().runTests();
     
 		long start = System.currentTimeMillis();
-    dijkstraBenchmarkCSV(1000000, 1000, 10);
+    dijkstraBenchmarkCSV(1000000, 10, 20);
     long done = System.currentTimeMillis() - start;
 
     System.out.println("Operation took ms : " + done);

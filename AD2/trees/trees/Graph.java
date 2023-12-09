@@ -342,7 +342,6 @@ public class Graph<E>
       // Get random values to generate a random graph
       int random_weight1 = random.nextInt(30 - 15) + 15;
       int random_weight2 = random.nextInt(15);
-      int random_vertex;
 
       // Create a new Vertex and add it to the total amount of vertexes, content doesnt matter
       newVertex = new Vertex<Integer>(i);
@@ -353,12 +352,12 @@ public class Graph<E>
       graph.addLink(newVertex, lastVertex, random_weight1);
 
       // If the Link already exists try again
-      for(int j = 0; j < 50; j++)
+      for(int j = 0; j < 15; j++)
       {
         int max = addedVertices.size();
         int min = 0;
 
-        random_vertex = random.nextInt(max - min) + min;
+        int random_vertex = random.nextInt(max - min) + min;
         
         if(addedVertices.get(random_vertex).areNeighbours(newVertex))
         {
@@ -373,7 +372,24 @@ public class Graph<E>
       lastVertex = newVertex;
     }
 
-    graph.addLink(lastVertex, destination, random.nextInt(50));
+    // Add the Destination to random nodes towards the end
+    for(int i = 0; i < 6; i++)
+    {
+      int max = addedVertices.size();
+      int min = addedVertices.size() / 2;
+
+      int random_vertex = random.nextInt(max - min) + min;
+
+      if(addedVertices.get(random_vertex).areNeighbours(destination))
+      {
+        
+      }
+      else
+      {
+        graph.addLink(addedVertices.get(random_vertex), destination, random.nextInt(20));
+      }
+    }
+    
 
     return graph;
   }
