@@ -7,10 +7,6 @@ import java.util.NoSuchElementException;
 
 class TreeTest
 {
-	public TreeTest()
-	{
-	}
-
 	public void testBST()
 	{
 		/* Test insert */
