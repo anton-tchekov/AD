@@ -31,11 +31,7 @@ public class Main
 		 */
 		new TreeTest().runTests();
   
-    dijkstraBenchmarkCSV(10, 10, 20);
-    Graph<Integer> graph = new Graph<Integer>();
-
-    graph = Graph.createSquareGraph(4);
-    System.out.println(graph.toString());
+    dijkstraBenchmarkCSV(100, 1, 1);
 	}
 
   public static void dijkstraBenchmarkCSV(int repeats, int increment, int samplesPerIncrement)

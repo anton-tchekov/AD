@@ -399,8 +399,8 @@ public class Graph<E>
 
   private static List<Vertex<Integer>> createRow(Graph<Integer> graph, int length, int content)
   {
-    Random random = new Random(System.currentTimeMillis());
-    List<Vertex<Integer>> createdRow = new LinkedList<Vertex<Integer>>();
+    final Random random = new Random(System.currentTimeMillis());
+    List<Vertex<Integer>> createdRow = new ArrayList<Vertex<Integer>>(length);
     Vertex<Integer> currentVertex = null;
     Vertex<Integer> previousVertex = null;
 
@@ -415,7 +415,7 @@ public class Graph<E>
       
       if(previousVertex != null)
       {
-        graph.addLink(currentVertex, previousVertex, random_weight);
+        graph.addLink(currentVertex, previousVertex, 1);
       }
       
       createdRow.add(currentVertex);
@@ -443,7 +443,7 @@ public class Graph<E>
       {
         for(int j = 0; j < rectangleSize; j++)
         {
-          graph.addLink(currentRow.get(j), lastRow.get(j), random.nextInt(10));
+          graph.addLink(currentRow.get(j), lastRow.get(j), 1);
         }
       }
     }
