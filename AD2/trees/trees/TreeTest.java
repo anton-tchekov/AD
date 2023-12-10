@@ -182,6 +182,7 @@ class TreeTest
 			double avg = 0;
 			for(int r = 0; r < count; ++r)
 			{
+				int cnt = 0;
 				BSTree<Integer, Integer> bst = new BSTree<Integer, Integer>();
 				ArrayList<Integer> keys = new ArrayList<Integer>();
 				for(int i = 0; i < n; ++i)
@@ -193,9 +194,15 @@ class TreeTest
 					keys.add(rnd);
 				}
 
-				int rndKey = keys.get(rng.nextInt(0, keys.size()));
+				for(int i = 0; i < keys.size(); ++i)
+				{
+					int key = keys.get(i);
+					cnt += bst.pathlen(key);
+				}
 
-				avg += ((double)bst.pathlen(rndKey) / bst.size()) + 1;
+				// int rndKey = keys.get(rng.nextInt(0, keys.size()));
+
+				avg += ((double)cnt / bst.size()) + 1;
 			}
 
 			avg /= count;

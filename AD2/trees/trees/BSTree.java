@@ -185,7 +185,7 @@ public class BSTree<K extends Comparable<K>, E>
 			}
 
 			++len;
-			path += len;
+			path = len;
 			cur = next;
 		}
 

@@ -1,0 +1,16 @@
+Um die durchschnittliche Pfadlänge zu bestimmen, haben wir
+eine Operation zu dem binären Suchbaum hinzugefügt, welche
+ein Element findet und dabei die Anzahl der traversierten
+Kanten zählt.
+
+In einer Schleife werden N zufällig generierte Schlüssel in den Baum
+und in eine Liste eingefügt und dann wird für alle Elemente in der
+Liste die Pfadlänge bestimmt summiert. Das Resultat der Summe
+ist die interne Pfadlänge, die danach durch die Anzahl der Schlüssel
+im Baum geteilt wird und um 1 erhöht wird um die durchschnittliche
+Pfadlänge zu bestimmen. Für jedes N wird dieser Vorgang 1000 mal
+wiederholt und daraus das arithmetische Mittel gebildet um
+zufällige Abweichungen auszugleichen.
+
+Der Ergebnisgraph stimmt mit der auf dem Aufgabenblatt angegebenen
+Funktion stark überein.
