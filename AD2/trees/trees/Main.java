@@ -31,7 +31,7 @@ public class Main
 		 */
 		new TreeTest().runTests();
   
-    dijkstraBenchmarkCSV(100, 1, 1);
+    //dijkstraBenchmarkCSV(100, 1, 1);
 	}
 
   public static void dijkstraBenchmarkCSV(int repeats, int increment, int samplesPerIncrement)
