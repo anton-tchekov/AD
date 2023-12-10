@@ -13,11 +13,11 @@ import java.util.Random;
 
 public class Graph<E>
 {
-	private Set<Vertex<E>> vertices;
+	private List<Vertex<E>> vertices;
 
 	public Graph()
 	{
-		vertices = new HashSet<Vertex<E>>();
+		vertices = new ArrayList<Vertex<E>>();
 	}
 
 	public boolean containsVertex(Vertex<E> v)
@@ -25,7 +25,7 @@ public class Graph<E>
 		return vertices.contains(v);
 	}
 
-	public Set<Vertex<E>> getVertices()
+	public List<Vertex<E>> getVertices()
 	{
 		return vertices;
 	}
@@ -397,53 +397,56 @@ public class Graph<E>
     return graph;
   }
 
-  private static HashSet<Vertex<Integer>> addEightNeighbours(Graph<Integer> graph, Vertex<Integer> vertex)
+  private static List<Vertex<Integer>> createRow(Graph<Integer> graph, int length, int content)
   {
     Random random = new Random(System.currentTimeMillis());
-    HashSet<Vertex<Integer>> lastOuterliners = new HashSet<Vertex<Integer>>(8);
-    Vertex<Integer> lastAdded;
+    List<Vertex<Integer>> createdRow = new LinkedList<Vertex<Integer>>();
+    Vertex<Integer> currentVertex = null;
+    Vertex<Integer> previousVertex = null;
 
-    // Surround the current existing vertices with more
-    for(int j = 0; j < 8; j++)
+    // Create a single row thats linked from left to right
+    for(int j = 0; j < length; j++)
     {
-      int random_weight1 = random.nextInt(15);
+      int random_weight = random.nextInt(10);
+      previousVertex = currentVertex;
+      currentVertex = new Vertex<Integer>(content * length + j + 1);
 
-      lastAdded = new Vertex<Integer>(j);
-
-      graph.addVertex(lastAdded);
-      graph.addLink(lastAdded, vertex, random_weight1);
-      lastOuterliners.add(lastAdded);
+      graph.addVertex(currentVertex);
+      
+      if(previousVertex != null)
+      {
+        graph.addLink(currentVertex, previousVertex, random_weight);
+      }
+      
+      createdRow.add(currentVertex);
     }
 
-    return lastOuterliners;
+    return createdRow;
   }
 
-  // Not working
-  public static Graph<Integer> createSquareGraph(Vertex<Integer> start, int rectangleSize, Vertex<Integer> lastAdded)
+  public static Graph<Integer> createSquareGraph(int rectangleSize)
   {
     Graph<Integer> graph = new Graph<Integer>();
 
-    Vertex<Integer> destination = new Vertex<>(rectangleSize+1);
-    HashSet<Vertex<Integer>> lastOuterliners;
+    List<Vertex<Integer>> lastRow = null;
+    List<Vertex<Integer>> currentRow = null;
 
-    /* Create a random Graph first */
-    Vertex<Integer> currentVertex = start;
-    
-    /* add the start vertex to the list of total vertices in the graph */
-    graph.addVertex(start);
-    graph.addVertex(destination);
+    Random random = new Random();
 
+    // Create a row and connect it to the last one
     for(int i = 0; i < rectangleSize; i++)
     {
-      lastOuterliners = addEightNeighbours(graph, currentVertex);
+      lastRow = currentRow;
+      currentRow = createRow(graph, rectangleSize, i);
 
-      for(Vertex<Integer> v : lastOuterliners)
+      if(lastRow != null)
       {
-        addEightNeighbours(graph, v);
-        currentVertex = v;
+        for(int j = 0; j < rectangleSize; j++)
+        {
+          graph.addLink(currentRow.get(j), lastRow.get(j), random.nextInt(10));
+        }
       }
     }
-    lastAdded = currentVertex;
 
     return graph;
   }
@@ -453,15 +456,18 @@ public class Graph<E>
     Graph<Integer> graph = new Graph<Integer>();
     List<Vertex<Integer>> bestPath;
 
-    Vertex<Integer> start = new Vertex<>(0);
+    Vertex<Integer> start = null;
     Vertex<Integer> destination = null;
 
-    graph = createRandomGraph(start, graphSize);
-    //graph = createSquareGraph(start, graphSize, destination);
+    //graph = createRandomGraph(start, graphSize);
+    graph = createSquareGraph(graphSize);
+
+    start = graph.getVertices().get(0);
+    destination = graph.getVertices().get(graph.getVertices().size()-1);
 
     // Benchmark the dijkstra search
     long startSearchTime = System.currentTimeMillis();
-    bestPath = graph.dijkstraSearch(start, graphSize+1);
+    bestPath = graph.dijkstraSearch(start, graphSize);
     long doneSearchTime = System.currentTimeMillis() - startSearchTime;
 
     if(bestPath == null)
