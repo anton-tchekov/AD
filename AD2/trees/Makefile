@@ -1,4 +1,4 @@
-all:
+all: clean
 	clear
 	javac trees/Main.java
 	java trees/Main

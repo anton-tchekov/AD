@@ -4,17 +4,17 @@ import java.util.function.Consumer;
 
 public class BT<Data> implements BinaryTree<Data>
 {
-	BT<Data> left, right;
-	Data data;
+	private BT<Data> left, right;
+	private Data data;
 
 	public Data getData()
 	{
 		return data;
 	}
 
-	public void setData(Data data)
+	public void setData(Data d)
 	{
-		this.data = data;
+		data = d;
 	}
 
 	public BinaryTree<Data> getLeftNode()
@@ -27,6 +27,16 @@ public class BT<Data> implements BinaryTree<Data>
 		return right;
 	}
 
+	public void setLeftNode(BT<Data> l)
+	{
+		left = l;
+	}
+
+	public void setRightNode(BT<Data> r)
+	{
+		right = r;
+	}
+
 	public boolean isLeaf()
 	{
 		return left == null && right == null;
@@ -35,43 +45,21 @@ public class BT<Data> implements BinaryTree<Data>
 	public void visitPreOrder(Consumer<BinaryTree<Data>> visitor)
 	{
 		visitor.accept(this);
-		if(left != null)
-		{
-			left.visitPreOrder(visitor);
-		}
-
-		if(right != null)
-		{
-			right.visitPreOrder(visitor);
-		}
+		if(left != null) { left.visitPreOrder(visitor); }
+		if(right != null) { right.visitPreOrder(visitor); }
 	}
 
 	public void visitInOrder(Consumer<BinaryTree<Data>> visitor)
 	{
-		if(left != null)
-		{
-			left.visitInOrder(visitor);
-		}
-
+		if(left != null) { left.visitInOrder(visitor); }
 		visitor.accept(this);
-		if(right != null)
-		{
-			right.visitInOrder(visitor);
-		}
+		if(right != null) { right.visitInOrder(visitor); }
 	}
 
 	public void visitPostOrder(Consumer<BinaryTree<Data>> visitor)
 	{
-		if(left != null)
-		{
-			left.visitPostOrder(visitor);
-		}
-
-		if(right != null)
-		{
-			right.visitPostOrder(visitor);
-		}
-
+		if(left != null) { left.visitPostOrder(visitor); }
+		if(right != null) { right.visitPostOrder(visitor); }
 		visitor.accept(this);
 	}
 }
