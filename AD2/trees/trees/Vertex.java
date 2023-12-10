@@ -35,6 +35,16 @@ public class Vertex<E>
 		return content;
 	}
 
+  public boolean areNeighbours(Vertex<E> vertex)
+  {
+    if(neighbours.containsKey(vertex))
+    {
+      return true;
+    }
+    
+    return false;
+  }
+
 	public int getNeighbourAmount()
 	{
 		return neighbours.size();
@@ -62,6 +72,6 @@ public class Vertex<E>
 		}
 		result += ") ";
 		return result;
-	}
+  }
 
 }

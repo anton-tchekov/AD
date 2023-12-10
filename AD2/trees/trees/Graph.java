@@ -2,20 +2,22 @@ package trees;
 
 import java.util.Set;
 import java.util.Stack;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 
 public class Graph<E>
 {
-	private Set<Vertex<E>> vertices;
+	private List<Vertex<E>> vertices;
 
 	public Graph()
 	{
-		vertices = new HashSet<Vertex<E>>();
+		vertices = new ArrayList<Vertex<E>>();
 	}
 
 	public boolean containsVertex(Vertex<E> v)
@@ -23,7 +25,7 @@ public class Graph<E>
 		return vertices.contains(v);
 	}
 
-	public Set<Vertex<E>> getVertices()
+	public List<Vertex<E>> getVertices()
 	{
 		return vertices;
 	}
@@ -217,22 +219,26 @@ public class Graph<E>
 
   public List<Vertex<E>> dijkstraSearch(Vertex<E> startVertex, E toSearch)
   {
-    // Create a PriorityQueue and a marketSet
     PriorityQueue<dijkstraStorage<E>> internalPriorityQueue = new PriorityQueue<dijkstraStorage<E>>();
     HashSet<Vertex<E>> markedSet = new HashSet<Vertex<E>>();
-    dijkstraStorage<E> startStorage = new dijkstraStorage<E>(null, startVertex, 0);
     dijkstraStorage<E> currentStorage;
+
+    // Start with a visited- zero cost- start vertex
+    dijkstraStorage<E> startStorage = new dijkstraStorage<E>(null, startVertex, 0);
 
     // put the startVertex into the Queue
     internalPriorityQueue.add(startStorage);
 
+    // Aslong as the internalqueue isnt empty
     while(internalPriorityQueue.size() > 0)
     {
+      //System.out.print("Current Queue Weights: " + internalPriorityQueue);
       currentStorage = internalPriorityQueue.poll();
+      //System.out.println(" Chosen Weight: " + currentStorage.getWeight());
       markedSet.add(currentStorage.getVertex());
 
       // If the current vertex contains the toSearch Element, stop and return the Path
-      if(currentStorage.getVertex().getContent() == toSearch)
+      if (currentStorage.getVertex().getContent().equals(toSearch))
       {
         List<Vertex<E>> prevList = new LinkedList<Vertex<E>>();
 
@@ -260,6 +266,217 @@ public class Graph<E>
     
     // If the queue is empty and the element wasnt found return null
     return null;
+  }
+
+  public List<Vertex<E>> dijkstraSearch(Vertex<E> startVertex, Vertex<E> toSearch)
+  {
+    // Create a PriorityQueue and a marketSet
+    PriorityQueue<dijkstraStorage<E>> internalPriorityQueue = new PriorityQueue<dijkstraStorage<E>>();
+    HashSet<Vertex<E>> markedSet = new HashSet<Vertex<E>>();
+    dijkstraStorage<E> currentStorage;
+
+    // Start with a visited- zero cost- start vertex
+    dijkstraStorage<E> startStorage = new dijkstraStorage<E>(null, startVertex, 0);
+
+    // put the startVertex into the Queue
+    internalPriorityQueue.add(startStorage);
+
+    // Aslong as the internalqueue isnt empty
+    while(internalPriorityQueue.size() > 0)
+    {
+      // Dequeue the internal priority
+      currentStorage = internalPriorityQueue.poll();
+      markedSet.add(currentStorage.getVertex());
+
+      // If the current vertex contains the toSearch Element, stop and return the Path
+      if(currentStorage.getVertex().equals(toSearch))
+      {
+        List<Vertex<E>> prevList = new ArrayList<Vertex<E>>();
+
+        while(currentStorage != null)
+        {
+          prevList.add(0, currentStorage.getVertex());
+          currentStorage = currentStorage.getPrevStorage();
+        }
+
+        return prevList;
+      }
+
+      // else add all Neighbours into the PriorityQueue that werent visited
+      for(Map.Entry<Vertex<E>, Integer> entry : currentStorage.getVertex().getNeighbours().entrySet())
+      {
+        // Dont add the Vertex if its already Marked
+        if(!markedSet.contains(entry.getKey()))
+        {
+          // Use the current weight of the storage plus the edge weight as new weight
+          dijkstraStorage<E> newStorage = new dijkstraStorage<E>(currentStorage, entry.getKey(), currentStorage.getWeight() + entry.getValue());
+          internalPriorityQueue.add(newStorage);
+        } 
+      }
+    }
+    
+    // If the queue is empty and the element wasnt found return null
+    return null;
+  }
+
+  public static Graph<Integer> createRandomGraph(Vertex<Integer> start, int graphSize)
+  {
+    Graph<Integer> graph = new Graph<Integer>();
+
+    Vertex<Integer> destination = new Vertex<>(graphSize+1);
+
+    /* Create a random Graph first */
+    Vertex<Integer> lastVertex = start;
+    Vertex<Integer> newVertex;
+    List<Vertex<Integer>> addedVertices = new ArrayList<>(graphSize + 1);
+    
+    /* add the start vertex to the list of total vertices in the graph */
+    addedVertices.add(start);
+    graph.addVertex(start);
+    graph.addVertex(destination);
+
+    Random random = new Random(System.currentTimeMillis());
+
+    for(int i = 1; i < graphSize+1; i++)
+    {
+
+      // Get random values to generate a random graph
+      int random_weight1 = random.nextInt(30 - 15) + 15;
+      int random_weight2 = random.nextInt(15);
+
+      // Create a new Vertex and add it to the total amount of vertexes, content doesnt matter
+      newVertex = new Vertex<Integer>(i);
+      addedVertices.add(newVertex);
+      graph.addVertex(newVertex);
+
+      // Add a link to the last vertex and a random one, ensures theres no gaps in the graph and gives alternative paths
+      graph.addLink(newVertex, lastVertex, random_weight1);
+
+      // If the Link already exists try again
+      for(int j = 0; j < 15; j++)
+      {
+        int max = addedVertices.size();
+        int min = 0;
+
+        int random_vertex = random.nextInt(max - min) + min;
+        
+        if(addedVertices.get(random_vertex).areNeighbours(newVertex))
+        {
+          
+        }
+        else
+        {
+          graph.addLink(addedVertices.get(random_vertex), newVertex, random_weight2);
+        }
+      }
+
+      lastVertex = newVertex;
+    }
+
+    System.gc();
+
+    // Add the Destination to random nodes towards the end
+    for(int i = 0; i < 3; i++)
+    {
+      int max = addedVertices.size();
+      int min = addedVertices.size() / 2;
+
+      int random_vertex = random.nextInt(max - min) + min;
+
+      if(addedVertices.get(random_vertex).areNeighbours(destination))
+      {
+        
+      }
+      else
+      {
+        graph.addLink(addedVertices.get(random_vertex), destination, random.nextInt(20));
+      }
+    }
+    
+    System.gc();
+    return graph;
+  }
+
+  private static List<Vertex<Integer>> createRow(Graph<Integer> graph, int length, int content)
+  {
+    final Random random = new Random(System.currentTimeMillis());
+    List<Vertex<Integer>> createdRow = new ArrayList<Vertex<Integer>>(length);
+    Vertex<Integer> currentVertex = null;
+    Vertex<Integer> previousVertex = null;
+
+    // Create a single row thats linked from left to right
+    for(int j = 0; j < length; j++)
+    {
+      int random_weight = random.nextInt(10);
+      previousVertex = currentVertex;
+      currentVertex = new Vertex<Integer>(content * length + j + 1);
+
+      graph.addVertex(currentVertex);
+      
+      if(previousVertex != null)
+      {
+        graph.addLink(currentVertex, previousVertex, 1);
+      }
+      
+      createdRow.add(currentVertex);
+    }
+
+    return createdRow;
+  }
+
+  public static Graph<Integer> createSquareGraph(int rectangleSize)
+  {
+    Graph<Integer> graph = new Graph<Integer>();
+
+    List<Vertex<Integer>> lastRow = null;
+    List<Vertex<Integer>> currentRow = null;
+
+    Random random = new Random();
+
+    // Create a row and connect it to the last one
+    for(int i = 0; i < rectangleSize; i++)
+    {
+      lastRow = currentRow;
+      currentRow = createRow(graph, rectangleSize, i);
+
+      if(lastRow != null)
+      {
+        for(int j = 0; j < rectangleSize; j++)
+        {
+          graph.addLink(currentRow.get(j), lastRow.get(j), 1);
+        }
+      }
+    }
+
+    return graph;
+  }
+
+  public static long randomDijkstraSearchBenchmark(int graphSize)
+  {
+    Graph<Integer> graph = new Graph<Integer>();
+    List<Vertex<Integer>> bestPath;
+
+    Vertex<Integer> start = null;
+    Vertex<Integer> destination = null;
+
+    //graph = createRandomGraph(start, graphSize);
+    graph = createSquareGraph(graphSize);
+
+    start = graph.getVertices().get(0);
+    destination = graph.getVertices().get(graph.getVertices().size()-1);
+
+    // Benchmark the dijkstra search
+    long startSearchTime = System.currentTimeMillis();
+    bestPath = graph.dijkstraSearch(start, graphSize);
+    long doneSearchTime = System.currentTimeMillis() - startSearchTime;
+
+    if(bestPath == null)
+    {
+      throw new NullPointerException("No path between destination and start");
+    }
+
+    // return the time it took for the random dijkstra
+    return doneSearchTime;
   }
 
   @Override
