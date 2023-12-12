@@ -11,7 +11,7 @@
 \maketitle
 
 \section{Abstract}
-In dieser Dokumentation geht es um verschiedene Datenstrukturen an denen 
+In dieser Dokumentation geht es um verschiedene Datenstrukturen an denen
 Algorithmen angewendet wurden.
 Die Datenstrukturen umfassen Binary Trees, Binary Search Trees und Graphen.
 Wir haben bei dem Graphen die Laufzeit der Suchalgorithmen getestet und
@@ -20,14 +20,14 @@ beim Binary Search Tree die durchschnittliche Pfadlänge bestimmt.
 // TODO ergebnis
 
 \section{Einführung}
-Die angewendeten Algorithmen für den Graphen umfassen: 
+Die angewendeten Algorithmen für den Graphen umfassen:
 \begin{enumerate}
   \item Tiefensuche
   \item Breitensuche
   \item Kürzeste Pfade nach Dijkstra
 \end{enumerate}
 Für den Binary Seach Tree wurde nur die durschnittliche Pfadlänge für
-unterschiedliche Baumgrößen von n = 100 bis n = 10 000 (in 100er Schritten) 
+unterschiedliche Baumgrößen von n = 100 bis n = 10 000 (in 100er Schritten)
 berechnet und in einem Graphen geplottet und mit der
 Funktion \emph{1.39 * log2(x) - 1.85} verglichen.
 \pagebreak
@@ -47,38 +47,38 @@ public class Vertex<E>
   [...]
 }
 \end{verbatim}
-Jeder Knoten hat eine Liste von seinen Nachbarn inklusive des 
+Jeder Knoten hat eine Liste von seinen Nachbarn, inklusive des
 Gewichts der Kante zu dem jeweiligen Nachbarn.\\\\
 \textbf{Breitensuche} \label{Breitensuche}
 Die Breitensuche wurde mithilfe einer Queue implementiert.
-Man eingereiht den Startknoten und überprüft ob dieser das Ziel ist,
-falls nicht dann werden alle Nachbarn in die Queue gepackt und nacheinander
-wie der Startknoten abgesucht. Falls man das Element findet beendet sich die Suchalgorithmen\\
+Man ereiht den Startknoten ein und überprüft ob dieser das Ziel ist,
+falls nicht, werden alle Nachbarn in die Queue gepackt und nacheinander
+wie der Startknoten abgesucht. Falls man das Element findet beendet sich der Suchalgorithmus\\
 \\
 \textbf{Tiefensuche}
-Die Tiefensuche wurde wie die Breitensuche implementier jedoch wurde
+Die Tiefensuche wurde wie die Breitensuche implementiert jedoch wurde
 statt einer Queue ein Stack verwendet. \\
 \\
 \textbf{Dijkstra}
 \paragraph{1.}
-Beim Dijkstra wird eine PriorityQueue verwendet, die nach
-Summe des Gewichtes sortiert ist Aufsteigend. 
-Es wird zuerst das Startelement in die Queue eingereiht 
-mit den Parametern: Kein vorheriger Knoten, 
+Beim Dijkstra wird eine Priority Queue verwendet, die aufsteigend nach
+der Summe des Gewichtes sortiert ist.
+Es wird zuerst das Startelement in die Queue eingereiht,
+mit den Parametern: Kein vorheriger Knoten,
 der zugehörige Knoten und das Gesamtgewicht bis zu diesem Knoten.
 \paragraph{2.} Es wird dann aus der Queue ein Element genommen, falls dieses nicht das gesuchte
 Element ist, wird von dem genommenen Element alle Nachbarn mit folgenden
 Parametern eingereiht: Das jetzige Element, Der jeweilige Nachbarknoten
 und die Summe des Gewichtes bis zum jetzigen Knoten. Es wird das Element mit der kleinsten Summe
 aus der Liste genommen und Schritt 2 wird wiederholt bis das Element
-gefunden wurde. Es wird anschließen der Pfad zurückgegeben.
+gefunden wurde. Es wird anschließend der Pfad zurückgegeben.
 
 \subsection{Validierung und Tests}
 \paragraph{Dijkstra Algorithmus Laufzeit Testung}
 Die Laufzeit vom Dijkstra Algorithmus wurde mit 3 Verschiedenen Szenarien getestet
 \begin{enumerate}
-  \item Ein Worst-case Szenario. in welchem ein Quadratischer Graph, der aufgebaut ist
-  wie ein Schachfeld. Ganzen unten links wurde der Startpunkt gesetzt und
+  \item Ein Worst-case Szenario. in welchem ein quadratischer Graph, der aufgebaut ist
+  wie ein Schachfeld. Ganz unten links wurde der Startpunkt gesetzt und
   ganz oben rechts der Endpunkt, zudem haben alle Kanten die Gewichtung 1.
   Das führt dazu das der Dijkstra jeden Knoten besucht bevor es den Zielknoten
   erreicht. Die Laufzeit wurde dabei geplottet. Siehe Figur 1.
@@ -90,7 +90,7 @@ Die Laufzeit vom Dijkstra Algorithmus wurde mit 3 Verschiedenen Szenarien getest
   \end{figure}
 
   \item Ein Average-Worst-case Szenario, in welchem das gleiche Szenario wie
-  1. herrscht, jedoch hat jede Kante eine Zufällige Gewichtung von 0-10.
+  1. herrscht, jedoch hat jede Kante eine zufällige Gewichtung von 0-10.
   Für jeden Messpunkt wurde 3 mal getestet. Die Laufzeit wurde auch hier geplottet.
   Siehe Figur 2.
 
@@ -100,13 +100,13 @@ Die Laufzeit vom Dijkstra Algorithmus wurde mit 3 Verschiedenen Szenarien getest
     \caption[]{Laufzeit des beschribenen Average-Worst-case Szenarios}
   \end{figure}
 
-  \item Ein Random Non-Dense-case, in welchem ein Zufälliger Graphen erstellt
-  wurde auf folgender weise: Es wird ein neuer Knoten erstellt und
+  \item Ein Random Non-Dense-case, in welchem ein zufälliger Graph
+  auf folgende Weise erstellt wurde: Es wird ein neuer Knoten erstellt und
   mit bis zu 15 von den vorherigen Knoten mit einem zufälligen Gewicht
   zwischen 0 und 15 verbunden. Dies wird dann wiederholt bis die erwünschte Menge
-  an Knoten erstellt wurde. Auf diese weise ist der Graph weniger Dicht
+  an Knoten erstellt wurde. Auf diese Weise ist der Graph weniger dicht
   als in den ersten beiden Szenarios. Für jeden Messpunkt wurden
-  10 Messung durchgeführt und das Maximum genommen. Siehe Figur 3.
+  10 Messungen durchgeführt und das Maximum genommen. Siehe Figur 3.
 
   \begin{figure}[H]
     \centering
@@ -128,7 +128,7 @@ ein Element findet und dabei die Anzahl der traversierten
 Kanten zählt.\\\\
 In einer Schleife werden N zufällig generierte Schlüssel in den Baum
 und in eine Liste eingefügt und dann wird für alle Elemente in der
-Liste die Pfadlänge bestimmt summiert. Das Resultat der Summe 
+Liste die Pfadlänge bestimmt summiert. Das Resultat der Summe
 ist die interne Pfadlänge, die danach durch die Anzahl der Schlüssel
 im Baum geteilt wird und um 1 erhöht wird um die durchschnittliche
 Pfadlänge zu bestimmen. Für jedes N wird dieser Vorgang 1000 mal
@@ -141,7 +141,7 @@ Funktion stark überein. Siehe Figur 4.
   \centering
   \includegraphics[width=1\textwidth]{Images/Pfadlaenge.png}
   \caption[]{Vergleich zwischen der durschnittlichen Pfadlaenge bei einer
-  gegebenen menge an Schluesselelementen und der Funktion \emph{1.39 * log2(x) - 1.85}}
+  gegebenen Menge an Schluesselelementen und der Funktion \emph{1.39 * log2(x) - 1.85}}
 \end{figure}
 
 \section{Quellen}
