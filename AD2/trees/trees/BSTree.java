@@ -165,11 +165,10 @@ public class BSTree<K extends Comparable<K>, E>
 	{
 		int cv;
 		Node<K, E> cur, next;
-		int len, path;
+		int len;
 
 		assert k != null;
 
-		path = 0;
 		len = 0;
 		cur = root;
 		if(cur.key == null)
@@ -185,11 +184,10 @@ public class BSTree<K extends Comparable<K>, E>
 			}
 
 			++len;
-			path = len;
 			cur = next;
 		}
 
-		return path;
+		return len;
 	}
 
 	@Override
