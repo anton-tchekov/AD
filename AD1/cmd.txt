@@ -1,0 +1,3 @@
+open "/home/files/studium/s3/ad/Praktikum 1/LinkedList.soil"
+open "/home/files/studium/s3/ad/Praktikum 1/ArrayList.soil"
+open "/home/files/studium/s3/ad/Praktikum 1/List.testsuite"

@@ -1,0 +1,23 @@
+reset
+
+!new ArrayList('al')
+!al.elements := Sequence{}
+!openter al append(5)
+  !al.elements := Sequence{5}
+!opexit
+
+!openter al append(1)
+  !al.elements := Sequence{5, 1}
+!opexit
+
+!openter al append(9)
+  !al.elements := Sequence{5, 1, 9}
+!opexit
+
+!openter al append(9)
+  !al.elements := Sequence{5, 1, 9}
+!opexit
+
+!openter al append(1)
+  !al.elements := Sequence{5, 1, 9}
+!opexit

@@ -1,0 +1,118 @@
+testsuite List for model List.use
+
+setup
+  !new ArrayList('myList')
+  !myList.elements := Sequence{}
+end
+
+testcase EmptyListIsEmpty
+  assert valid myList.size() = 0
+end
+
+testcase AppendContractValidForSingleElement
+  !openter myList append('aFirstElement')
+  !opexit
+  assert invalid post itemAdded
+
+  !openter myList append('theFirstElement')
+    !set self.elements := Sequence{'theFirstElement'}
+  !opexit
+  assert valid post itemAdded
+  assert valid post itemIsLast
+end
+
+testcase AppendContractChecksSequence
+  !openter myList append('theFirstElement')
+    !set self.elements := Sequence{'theFirstElement'}
+  !opexit
+  assert valid post itemAdded
+  assert valid post itemIsLast
+
+  !openter myList append('theLastElement')
+    !set self.elements := Sequence{'theFirstElement', 'theLastElement'}
+  !opexit
+  assert valid post itemAdded
+  assert valid post itemIsLast
+
+  !openter myList append('theNewLastElement')
+    !set self.elements := Sequence{'theFirstElement', 'theLastElement', 'theNewLastElement'}
+  !opexit
+  assert valid post itemAdded
+  assert valid post itemIsLast
+
+  !openter myList append('theVeryLastElement')
+    -- An dieser Stelle simulieren wir eine falsche Implementierung
+    -- Daher muss die Nachbedingung itemIsLast ungültig sein
+    !set self.elements := Sequence{'theFirstElement', 'theLastElement', 'theVeryLastElement', 'theNewLastElement'}
+  !opexit
+  assert valid post itemAdded
+  assert invalid post itemIsLast
+end
+
+testcase insertAt_Middle
+  !openter myList insertAt('Element1', 1)
+    !set self.elements := Sequence{'Element1'}
+  !opexit
+
+  -- Alle Nachbedingugnen sollten jetzt gültig sein
+  assert valid post
+
+  !openter myList insertAt('Element2', 2)
+    !set self.elements := Sequence{'Element1', 'Element2'}
+  !opexit
+
+  -- Alle Nachbedingugnen sollten jetzt gültig sein
+  assert valid post
+
+  !openter myList insertAt('Element3', 2)
+    !set self.elements := Sequence{'Element1', 'Element2', 'Element3'}
+  !opexit
+  -- Die Nachbedingung addedAtCorrectPosition muss hier fehlschlagen!
+  assert invalid post addedAtCorrectPosition
+
+  -- otherElementsUnchanged
+  !openter myList insertAt('Element4', 3)
+    !set self.elements := Sequence{'Element1', 'Element2', 'Element4', 'Element3'}
+  !opexit
+  assert valid post
+
+  -- otherElementsUnchanged
+  !openter myList insertAt('Element5', 2)
+    !set self.elements := Sequence{'Element1', 'Element5', 'Element2', 'Element1', 'Element3'}
+  !opexit
+  assert invalid post
+end
+
+testcase Remove
+  -- Weil noch nichts drin ist
+  assert invalid pre myList remove(1)
+
+  -- Zwei Elemente einfügen
+  !set myList.elements := Sequence{'Element1', 'Element2'}
+
+  -- Ungültigen Index Entfernen sollte nocht funktionieren
+  assert invalid pre myList remove(3)
+
+  -- Gültigen Index Entfernen sollte funktionieren
+  assert valid pre myList remove(2)
+
+  -- ItemRemoved Testen
+  !openter myList remove(1)
+    !set self.elements := Sequence{'Element2'}
+  !opexit
+  assert valid post
+
+  -- otherElementsUnchanged Testen
+  !set myList.elements := Sequence{'Element5', 'Element4', 'Element3', 'Element4', 'Element5'}
+  !openter myList remove(3)
+    !set self.elements := Sequence{'Element5', 'Element4', 'Element4', 'Element5'}
+  !opexit
+  assert valid post
+
+  -- otherElementsUnchanged Testen V2
+  !set myList.elements := Sequence{'Element1', 'Element2', 'Element3', 'Element4'}
+  !openter myList remove(3)
+    !set self.elements := Sequence{'Element1', 'Element2', 'Element3'}
+  !opexit
+  assert invalid post
+end
