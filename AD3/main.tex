@@ -2,6 +2,7 @@
 \usepackage{graphicx} % Required for inserting images
 \usepackage[utf8]{inputenc}
 \usepackage{float}
+\usepackage{hyperref}
 
 \title{AD Aufgabe 3 Dokumentation}
 \author{Anton Tchekov, Haron Nazari\\ Praktikums Gruppe 3, Team 2}
@@ -10,14 +11,18 @@
 \begin{document}
 \maketitle
 
+\tableofcontents
+\pagebreak
+
 \section{Abstract}
 In dieser Dokumentation geht es um verschiedene Datenstrukturen an denen
 Algorithmen angewendet wurden.
 Die Datenstrukturen umfassen Binary Trees, Binary Search Trees und Graphen.
 Wir haben bei dem Graphen die Laufzeit der Suchalgorithmen getestet und
-beim Binary Search Tree die durchschnittliche Pfadlänge bestimmt.
+beim Binary Search Tree die durchschnittliche Pfadlänge bestimmt.\\
+Das \textbf{Resultat} bei der Bestimmung der durchnittlichen Pfadlänge war, das dieses sich nach der Funktion \emph{1.39 * log2(x) - 1.85} richtete.\\
+Die Laufzeit des Dijkstras ist wie erwartet quadratisch im worst case. Kann jedoch besser sein, je nach Aufbau des Graphen.
 
-// TODO ergebnis
 
 \section{Einführung}
 Die angewendeten Algorithmen für den Graphen umfassen:
@@ -81,23 +86,25 @@ Die Laufzeit vom Dijkstra Algorithmus wurde mit 3 Verschiedenen Szenarien getest
   wie ein Schachfeld. Ganz unten links wurde der Startpunkt gesetzt und
   ganz oben rechts der Endpunkt, zudem haben alle Kanten die Gewichtung 1.
   Das führt dazu das der Dijkstra jeden Knoten besucht bevor es den Zielknoten
-  erreicht. Die Laufzeit wurde dabei geplottet. Siehe Figur 1.
+  erreicht. Die Laufzeit wurde dabei geplottet. Siehe Figur \ref{figure1}.
 
-  \begin{figure}[H]
+  \begin{figure}[H] 
     \centering
     \includegraphics[width=1\textwidth]{Images/Worstcase.png}
     \caption[]{Laufzeit des beschribenen Worst-case Szenarios}
+    \label{figure1}
   \end{figure}
 
   \item Ein Average-Worst-case Szenario, in welchem das gleiche Szenario wie
   1. herrscht, jedoch hat jede Kante eine zufällige Gewichtung von 0-10.
   Für jeden Messpunkt wurde 3 mal getestet. Die Laufzeit wurde auch hier geplottet.
-  Siehe Figur 2.
+  Siehe Figur \ref{figure2}.
 
   \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{Images/AverageWorstCase.png}
     \caption[]{Laufzeit des beschribenen Average-Worst-case Szenarios}
+    \label{figure2}
   \end{figure}
 
   \item Ein Random Non-Dense-case, in welchem ein zufälliger Graph
@@ -106,12 +113,13 @@ Die Laufzeit vom Dijkstra Algorithmus wurde mit 3 Verschiedenen Szenarien getest
   zwischen 0 und 15 verbunden. Dies wird dann wiederholt bis die erwünschte Menge
   an Knoten erstellt wurde. Auf diese Weise ist der Graph weniger dicht
   als in den ersten beiden Szenarios. Für jeden Messpunkt wurden
-  10 Messungen durchgeführt und das Maximum genommen. Siehe Figur 3.
+  10 Messungen durchgeführt und das Maximum genommen. Siehe Figur \ref{figure3}.
 
   \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{Images/Random Non-dense case.png}
     \caption[]{Laufzeit des beschribenen Random Non-Dense-case Szenarios}
+    \label{figure3}
   \end{figure}
 
 \end{enumerate}
@@ -128,23 +136,21 @@ ein Element findet und dabei die Anzahl der traversierten
 Kanten zählt.\\\\
 In einer Schleife werden N zufällig generierte Schlüssel in den Baum
 und in eine Liste eingefügt und dann wird für alle Elemente in der
-Liste die Pfadlänge bestimmt summiert. Das Resultat der Summe
+Liste die Pfadlänge bestimmt und aufsummiert. Das Resultat der Summe
 ist die interne Pfadlänge, die danach durch die Anzahl der Schlüssel
 im Baum geteilt wird und um 1 erhöht wird um die durchschnittliche
 Pfadlänge zu bestimmen. Für jedes N wird dieser Vorgang 1000 mal
 wiederholt und daraus das arithmetische Mittel gebildet um
 zufällige Abweichungen auszugleichen.\\\\
 Der Ergebnisgraph stimmt mit der angegebenen
-Funktion stark überein. Siehe Figur 4.
+Funktion stark überein. Siehe Figur \ref{figure4}.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{Images/Pfadlaenge.png}
+  \includegraphics[width=1\textwidth]{Images/Pfadlaenge3.png}
   \caption[]{Vergleich zwischen der durschnittlichen Pfadlaenge bei einer
   gegebenen Menge an Schluesselelementen und der Funktion \emph{1.39 * log2(x) - 1.85}}
+  \label{figure4}
 \end{figure}
-
-\section{Quellen}
-Trust me bro.
 
 \end{document}
