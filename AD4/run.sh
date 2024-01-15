@@ -10,10 +10,10 @@ javac -Xlint:unchecked AD4.java
 #
 # diff 2023-wise-adp-04.pdf out2.pdf
 
-java Main huffman compress examples/big.txt out3.txt.huf
-java Main huffman decompress out3.txt.huf out3.txt
+# java Main huffman compress examples/big.txt out3.txt.huf
+# java Main huffman decompress out3.txt.huf out3.txt
 
-diff examples/big.txt out3.txt
+# diff examples/big.txt out3.txt
 
 java Main lzw compress examples/big.txt out4.txt.lzw
 java Main lzw decompress out4.txt.lzw out4.txt

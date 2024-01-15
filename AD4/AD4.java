@@ -324,7 +324,7 @@ class Main
 		}
 
 		--in_bits;
-		return (in_buf & (1 << in_bits)) != 0 ? 1 : 0;
+		return (in_buf >> in_bits) & 1;
 	}
 
 	static int out_bits = 8, out_buf = 0;
@@ -333,10 +333,10 @@ class Main
 	{
 		/* pln("Write " + bits + " bits: " +
 			Integer.toBinaryString(value)); */
-		for(int dict_entries = 0; dict_entries < bits; ++dict_entries)
+		for(int i = 0; i < bits; ++i)
 		{
 			--out_bits;
-			if((value & (1 << dict_entries)) != 0)
+			if((value & (1 << i)) != 0)
 			{
 				out_buf |= (1 << out_bits);
 			}
@@ -348,6 +348,14 @@ class Main
 				out_bits = 8;
 			}
 		}
+	}
+
+	private static void rw_reset()
+	{
+		in_bits = 0;
+		in_buf = 0;
+		out_bits = 8;
+		out_buf = 0;
 	}
 
 	public static void write_str(OutputStream out, String s) throws IOException
@@ -363,11 +371,11 @@ class Main
 		throws IOException
 	{
 		int result = 0;
-		for(int dict_entries = 0; dict_entries < bits; ++dict_entries)
+		for(int i = 0; i < bits; ++i)
 		{
 			int b = read_bit(in);
 			if(b < 0) { return -1; }
-			result |= (b << dict_entries);
+			result |= (b << i);
 		}
 
 		/* pln("Read " + bits + " bits: " +
@@ -428,6 +436,8 @@ class Main
 	private static void huffman_compress(String infn, String outfn)
 		throws IOException
 	{
+		rw_reset();
+
 		/* Calculate character frequencies and count bytes */
 		long size = 0;
 		long[] freq = new long[BYTE_STATES];
@@ -505,6 +515,7 @@ class Main
 	private static void huffman_decompress(String infn, String outfn)
 		throws IOException
 	{
+		rw_reset();
 		try(InputStream in = new FileInputStream(infn))
 		{
 			/* Check header */
@@ -573,18 +584,20 @@ class Main
 	public static void lzw_compress(String infn, String outfn,
 		int dict_size_bits) throws IOException
 	{
+		rw_reset();
 		HashMap<String, Integer> dict = new LinkedHashMap<String, Integer>();
 		/* BSTree<String, Integer> dict = new BSTree<String, Integer>(); */
-		for(int dict_entries = 0; dict_entries < BYTE_STATES; ++dict_entries)
+		int dict_entries;
+		for(dict_entries = 0; dict_entries < BYTE_STATES; ++dict_entries)
 		{
 			dict.put(Character.toString(dict_entries), dict_entries);
 		}
 
 		int dict_size = (1 << dict_size_bits);
-		int dict_entries = BYTE_STATES;
 		String word = "";
 		try(OutputStream out = new FileOutputStream(outfn))
 		{
+			pln("dict_size_bits = " + dict_size_bits);
 			write_bits(out, 4, dict_size_bits);
 			try(InputStream in = new FileInputStream(infn))
 			{
@@ -622,13 +635,15 @@ class Main
 	public static void lzw_decompress(String infn, String outfn)
 		throws IOException
 	{
+		rw_reset();
 		try(OutputStream out = new FileOutputStream(outfn))
 		{
 			try(InputStream in = new FileInputStream(infn))
 			{
 				int dict_size_bits = read_bits(in, 4);
+				pln("dict_size_bits = " + dict_size_bits);
 				int dict_size = (1 << dict_size_bits);
-				int dict_entries = 0;
+				int dict_entries;
 				String[] dict = new String[dict_size];
 				for(dict_entries = 0; dict_entries < BYTE_STATES; ++dict_entries)
 				{
